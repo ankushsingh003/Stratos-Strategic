@@ -61,9 +61,11 @@ class Orchestrator:
 
         # 3. Run SHAP + LIME Explainability in parallel
         logger.info("[Step 3] Generating SHAP and LIME Explanations...")
+        # Inject industry into ml_result for the explainer to see
+        ml_result_plus = {**ml_result, "industry": industry}
         shap_result, lime_result = await asyncio.gather(
-            shap_explainer.explain(features, ml_result),
-            lime_explainer.explain(time_series, ml_result)
+            shap_explainer.explain(features, ml_result_plus),
+            lime_explainer.explain(time_series, ml_result_plus)
         )
 
         # 4. Generate LLM Report

@@ -16,11 +16,10 @@ class SHAPExplainer:
         logger.info("[SHAP] Generating feature attribution for tabular models...")
         await asyncio.sleep(0.4)
 
-        # Simulate SHAP feature importance values
-        feature_keys = list(features.keys()) if features else [
-            "revenue_growth_yoy", "debt_equity_ratio", "operating_margin",
-            "gdp_growth", "inflation_rate", "sentiment_score", "competitor_delta"
-        ]
+        # Simulate SHAP feature importance values using industry as seed for variation
+        import hashlib
+        seed = int(hashlib.md5(ml_result.get("industry", "general").encode()).hexdigest(), 16) % 10**8
+        random.seed(seed)
 
         shap_values = {}
         total = 0.0

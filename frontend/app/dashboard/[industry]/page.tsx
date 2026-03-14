@@ -17,29 +17,20 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 2500));
-        
-        setData({
-          ml_verdict: {
-            label: "Growth",
-            confidence: 0.95, // Boosted by ensemble
-            score: 0.82
-          },
-          market_data: {
-            micro: [
-              { name: "Industry CAGR", val: 5.2, suffix: "%" },
-              { name: "Competitor Delta", val: 4 },
-              { name: "Supply Chain", val: 7.5, suffix: "/10" }
-            ],
-            macro: [
-              { name: "GDP Growth", val: 2.1, suffix: "%" },
-              { name: "Inflation Rate", val: -0.4, suffix: "%" },
-              { name: "Interest Rates", val: 5.25, suffix: "%" }
-            ]
-          }
+        const response = await fetch("http://localhost:8000/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            company_name: "Strategy Engine",
+            industry: params.industry,
+            region: "Global"
+          })
         });
+        
+        const result = await response.json();
+        setData(result);
       } catch (err) {
-        console.error(err);
+        console.error("Fetch Error:", err);
       } finally {
         setLoading(false);
       }
@@ -48,7 +39,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
     fetchAnalysis();
   }, [params.industry]);
 
-  if (loading) {
+  if (loading || !data) {
     return (
       <div className="flex h-screen flex-col items-center justify-center space-y-6">
         <motion.div 
@@ -64,7 +55,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
         >
           Running Orchestrator Pipeline...
         </motion.h2>
-        <p className="text-slate-500 text-sm max-w-sm text-center">
+        <p className="text-slate-500 text-sm max-w-sm text-center font-mono">
           Querying Pinecone RAG ➔ Executing 4-Model ML Ensemble (TabNet, XGBoost, LSTM, Prophet) ➔ Calling Claude 3.5...
         </p>
       </div>
@@ -88,7 +79,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
             <span className="flex items-center gap-1"><TrendingUp className="w-4 h-4" /> Live Market Intelligence</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight capitalize select-none flex items-center gap-3">
-            {params.industry} <span className="text-slate-500 font-light">Analysis</span>
+            {params.industry.replace('-', ' ')} <span className="text-slate-500 font-light">Analysis</span>
           </h1>
         </div>
         
@@ -96,7 +87,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           <Link href="/" className="glass-card px-5 py-2.5 flex items-center gap-2 hover:bg-slate-800 transition-all font-medium text-sm">
              Switch Industry
           </Link>
-          <Link href="/report/vantage-final-001" className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl transition-all font-semibold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+          <Link href={data.pdf_url} className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl transition-all font-semibold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20">
             <FileText className="w-4 h-4" /> Strategic Report
           </Link>
         </div>
@@ -124,7 +115,10 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           transition={{ delay: 0.1 }}
           className="col-span-12 lg:col-span-8 row-span-2 h-full"
         >
-          <PredictionChart data={[]} /> 
+          <PredictionChart 
+            data={data.ml_verdict.forecast_data || []} 
+            summary={data.ml_verdict.forecast_summary}
+          /> 
         </motion.div>
 
         {/* Drivers - Secondary Row */}
@@ -134,7 +128,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           transition={{ delay: 0.2 }}
           className="col-span-12 md:col-span-6 lg:col-span-3 h-full"
         >
-          <FactorBreakdown title="Micro Drivers" factors={data.market_data.micro} />
+          <FactorBreakdown title="Sector Drivers" factors={data.ml_verdict.feature_contributions || []} />
         </motion.div>
 
         <motion.div 
@@ -143,7 +137,9 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           transition={{ delay: 0.3 }}
           className="col-span-12 md:col-span-6 lg:col-span-3 h-full"
         >
-          <FactorBreakdown title="Macro Context" factors={data.market_data.macro} />
+          <FactorBreakdown title="Sentiment Analysis" factors={[
+            { name: "News Sentiment", val: data.ml_verdict.social_sentiment_score || 0.65, suffix: "/1" }
+          ]} />
         </motion.div>
 
         {/* Live Feed - Dynamic Content */}
@@ -164,17 +160,18 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           className="col-span-12 h-full"
         >
           <ShapExplainer 
-            method="SHAP (TreeExplainer) + LIME"
-            summary={`The '${data.ml_verdict.label}' verdict is primarily driven by Revenue Growth YoY and Supply Chain resilience factors.`}
-            factors={[
-              { feature: "revenue_growth_yoy", importance_pct: 38.1, raw_shap: 0.381 },
-              { feature: "supply_chain_score", importance_pct: 22.4, raw_shap: 0.224 },
-              { feature: "gdp_growth", importance_pct: 14.2, raw_shap: 0.142 },
-              { feature: "competitor_delta", importance_pct: -10.5, raw_shap: -0.105 },
-              { feature: "inflation_rate", importance_pct: -8.3, raw_shap: -0.083 },
-            ]}
+            method={data.explainability.shap.method}
+            summary={data.explainability.shap.summary}
+            factors={data.explainability.shap.top_features.map((f: any) => ({
+              feature: f.feature.replace(/_/g, ' '),
+              importance_pct: f.importance_pct,
+              raw_shap: f.raw_shap
+            }))}
           />
         </motion.div>
+      </div>
+    </motion.div>
+iv>
       </div>
     </motion.div>
   );
