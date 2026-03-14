@@ -2,7 +2,7 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-export default function PredictionChart({ data }: { data: any[] }) {
+export default function PredictionChart({ data, summary }: { data: any[], summary?: string }) {
   // Mock data for Phase 1 if none provided
   const chartData = data?.length ? data : [
     { period: 'Q1', revenue: 400, predicted: null },
@@ -18,7 +18,7 @@ export default function PredictionChart({ data }: { data: any[] }) {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h3 className="text-xl font-bold">Ensemble Forecast</h3>
-          <p className="text-xs text-slate-500 font-mono">LSTM + Prophet Fusion</p>
+          <p className="text-xs text-slate-500 font-mono italic">{summary || "LSTM + Prophet Fusion"}</p>
         </div>
         <div className="flex gap-2">
           <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 rounded border border-emerald-500/20 text-[10px] font-bold uppercase">LSTM</span>
