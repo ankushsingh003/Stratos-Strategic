@@ -17,15 +17,17 @@ class MicroFetcher:
 
         logger.info(f"Generating AI micro factors for {industry}")
         prompt = f"""
-        Role: Industry Sector Analyst.
-        Context: Market intelligence for the '{industry}' sector.
-        Task: Provide key microeconomic data point averages for this industry in JSON.
+        Task: Provide an elite strategic analysis of the '{industry}' sector's micro-dynamics.
         
         Return JSON with:
         - "industry_cagr": float (e.g., 5.5)
-        - "competitor_count_delta": int (e.g., 3 - representing net new major entrants)
+        - "competitor_count_delta": int (e.g., 3)
         - "supply_chain_health": "stable"|"fragile"|"disrupted"
-        - "summary": One sentence sector health summary.
+        - "market_share_dynamic": "fragmented"|"consolidated"|"monopolistic"
+        - "entry_barriers": "low"|"moderate"|"high"
+        - "key_value_drivers": [list of 3 key drivers, e.g., "R&D efficiency", "Brand loyalty"]
+        - "sector_headwinds": [list of 3 major risks]
+        - "summary": One-paragraph tactical sector summary for a board-level presentation.
         
         Output ONLY valid JSON.
         """

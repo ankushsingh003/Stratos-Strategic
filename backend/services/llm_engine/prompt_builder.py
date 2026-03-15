@@ -8,55 +8,64 @@ class PromptBuilder:
         company_name = company_input.get("company_name", "the company")
         
         return f"""
-You are a senior strategy consultant specializing in the {industry} industry. 
-Analyze the following data for {company_name} and produce a full, highly professional consultancy report.
+You are a Lead Strategy Partner at an elite global consultancy (McKinsey/BCG/Bain). 
+Your task is to analyze the provided intelligence for {company_name} and produce a "Board-Ready" Strategic Masterplan.
 
-1. DATA INPUTS
+1. CORE INTELLIGENCE INPUTS
 
---- ML Model Verdict ---
-Prediction: {ml_output.get('label', 'Unknown')}
-Confidence Score: {ml_output.get('confidence', 0.0)}
-Trajectory Forecast (LSTM): {ml_output.get('forecast_summary', 'N/A')}
+--- PROPRIETARY ML VERDICT ---
+Prediction Status: {ml_output.get('label', 'Unknown')}
+Model Confidence: {ml_output.get('confidence', 0.0) * 100}%
+Predictive Trajectory: {ml_output.get('forecast_summary', 'N/A')}
 
---- Macroeconomic Context ---
-Region: {market_data.get('macro', {}).get('region', 'N/A')}
-GDP Growth: {market_data.get('macro', {}).get('gdp_growth', 'N/A')}%
-Inflation Rate: {market_data.get('macro', {}).get('inflation_rate', 'N/A')}%
-Summary finding: {market_data.get('macro', {}).get('summary', 'N/A')}
+--- MACRO-ECONOMIC RISK VECTORS ---
+GDP Context: {market_data.get('macro', {}).get('gdp_growth', 'N/A')}%
+Inflation/Fiscal Pressure: {market_data.get('macro', {}).get('inflation_rate', 'N/A')}%
+Monetary Policy: {market_data.get('macro', {}).get('monetary_policy', 'N/A')}
+Consumer Confidence: {market_data.get('macro', {}).get('consumer_confidence', 'N/A')}
+Regional Sentinel Summary: {market_data.get('macro', {}).get('summary', 'N/A')}
 
---- Microeconomic Factors ---
-Industry CAGR: {market_data.get('micro', {}).get('industry_cagr', 'N/A')}%
-Competitor Delta: {market_data.get('micro', {}).get('competitor_count_delta', 'N/A')}
-Summary finding: {market_data.get('micro', {}).get('summary', 'N/A')}
+--- MARKET RESEARCH (RAG) CONTEXT ---
+{market_data.get('rag_context', 'No additional research context available.')}
 
---- Customer Sentiment Signals ---
-Score (0-1): {market_data.get('sentiment', {}).get('social_sentiment_score', 'N/A')}
-Trending Topics: {', '.join(market_data.get('sentiment', {}).get('trending_topics', []))}
-Summary Finding: {market_data.get('sentiment', {}).get('summary', 'N/A')}
+--- MICRO-MARKET & COMPETITIVE DYNAMICS ---
+Sector CAGR: {market_data.get('micro', {}).get('industry_cagr', 'N/A')}%
+Competitive Saturation: {market_data.get('micro', {}).get('competitor_count_delta', 'N/A')}
+Market Share Dynamic: {market_data.get('micro', {}).get('market_share_dynamic', 'N/A')}
+Entry Barriers: {market_data.get('micro', {}).get('entry_barriers', 'N/A')}
+Key Value Drivers: {', '.join(market_data.get('micro', {}).get('key_value_drivers', []))}
+Sector Headwinds: {', '.join(market_data.get('micro', {}).get('sector_headwinds', []))}
+Market Momentum Summary: {market_data.get('micro', {}).get('summary', 'N/A')}
 
---- Provided Company Financials (Raw) ---
-Revenue: {company_input.get('revenue', 'N/A')}
-Debt/Equity Ratio: {company_input.get('debt_equity_ratio', 'N/A')}
-Gross Margin: {company_input.get('gross_margin', 'N/A')}%
+--- REAL-TIME SENTIMENT & BRAND EQUITY ---
+Public Sentiment Score: {market_data.get('sentiment', {}).get('social_sentiment_score', 'N/A')}
+High-Frequency Keywords: {', '.join(market_data.get('sentiment', {}).get('trending_topics', []))}
 
-2. TASK INSTRUCTIONS
+--- CLIENT FINANCIALS ---
+Reported Revenue: {company_input.get('revenue', 'N/A')}
+Leverage Ratio: {company_input.get('debt_equity_ratio', 'N/A')}
+Operating Margin: {company_input.get('gross_margin', 'N/A')}%
 
-Using the data above, produce a comprehensive consultancy report formatted in clear Markdown. 
-It MUST include exactly these top-level sections for the PDF generator to parse correctly:
+2. BOARD-READY DELIVERABLE SPECIFICATION
 
-# INDUSTRY GROWTH & MARKET INSIGHTS
-(Analyze the broader sectoral trends using the Macro/Micro data provided)
+Produce a multi-page Markdown report. You must use authoritative language, cite the data provided, and follow this exact sequence:
 
-# COMPANY-SPECIFIC FINANCIAL ANALYSIS
-(Deep dive into the company's financials, margins, and its standing relative to the industry)
+# I. EXECUTIVE STRATEGY OVERVIEW
+(Synthesize the ML verdict with macro conditions. State the 'So What?' immediately.)
 
-# STRATEGIC CONSULTANCY VERDICT
-(Provide your expert strategic assessment based on the ML prediction and trajectory)
+# II. SECTORAL GROWTH DYNAMICS & TAILWINDS
+(Detail the industry growth patterns, supply chain shifts, and regulatory drivers.)
 
-# ACTIONABLE RECOMMENDATIONS
-(Provide 3-5 specific, high-impact recommendations to improve growth or mitigate risk)
+# III. COMPANY-SPECIFIC COMPETITIVE AUDIT
+(Benchmarking {company_name} against the sector delta and sentiment scores.)
 
-Do not use conversational filler. Output ONLY the report text in Markdown starting from the first heading.
+# IV. STRATEGIC PATHWAYS & RISK MITIGATION
+(Provide an elite consultancy verdict. Use frameworks like SWOT or Porter’s 5 where applicable.)
+
+# V. ACCELERATED GROWTH BLUEPRINT (RECOMMENDATIONS)
+(3-5 high-impact, CAPEX/OPEX aware recommendations for immediate board consideration.)
+
+Output EXCLUSIVELY the Markdown content. No preamble. No meta-commentary.
 """
 
 prompt_builder = PromptBuilder()

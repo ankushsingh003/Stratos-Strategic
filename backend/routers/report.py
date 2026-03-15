@@ -1,51 +1,57 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Query
 import logging
 from backend.services.pdf_engine.renderer import pdf_renderer
+from backend.core.orchestrator import orchestrator
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 @router.get("/report/download/{report_id}")
-async def download_report(report_id: str):
-    """Generates and returns the PDF report for download."""
+async def download_report(
+    report_id: str,
+    company: str = Query("Vantage Corp"),
+    industry: str = Query("cosmetics"),
+    region: str = Query("Global"),
+    quarter: str = Query("Q4")
+):
+    """Generates and returns the elite PDF report for download using real-time analysis."""
     
-    # Mock report data - in real app, fetch from DB by ID
-    mock_markdown = f"""
-# Strategic Analysis Report
-## ID: {report_id}
-
-### Executive Summary
-This report provides a comprehensive overview of the market intelligence gathered for the current period.
-
-### Key Insights
-- Market volatility remains high but stabilized in Q2.
-- Consumer sentiment in the Cosmetics sector shows a 12% increase in sustainability interest.
-- Supply chain logistics have improved by 8%.
-
-### Recommendation
-Strategic investment in R&D for organic product lines is recommended based on the ensemble model predictions.
-"""
+    logger.info(f"Generating full strategic intelligence report for {company} (Industry: {industry})")
     
-    logger.info(f"Generating PDF for report ID: {report_id}")
     try:
+        # 1. Run full analysis via Orchestrator to get real insights
+        company_input = {
+            "company_id": report_id,
+            "company_name": company,
+            "industry": industry,
+            "region": region,
+            "quarter": quarter
+        }
+        
+        analysis_result = await orchestrator.run_full_analysis(company_input)
+        report_markdown = analysis_result.get("report_markdown", "# Error: No report generated.")
+        
+        # 2. Render to Premium PDF
         pdf_bytes = await pdf_renderer.render(
-            report_markdown=mock_markdown,
-            company_name="Vantage Corp",
-            industry="Cosmetics & Beauty"
+            report_markdown=report_markdown,
+            company_name=company,
+            industry=industry
         )
-        logger.info(f"Successfully rendered PDF, size: {len(pdf_bytes)}")
+        
+        filename = f"Vantage_Strategic_Report_{company.replace(' ', '_')}_{quarter}.pdf"
         
         return Response(
-            content=bytes(pdf_bytes), # type: ignore
+            content=bytes(pdf_bytes),
             media_type="application/pdf",
             headers={
-                "Content-Disposition": f"attachment; filename=Vantage_Report_{report_id}.pdf"
+                "Content-Disposition": f"attachment; filename={filename}",
+                "Access-Control-Expose-Headers": "Content-Disposition"
             }
         )
     except Exception as e:
-        logger.error(f"Error generating PDF: {e}")
-        raise e
+        logger.error(f"Critical failure in report generation: {e}")
+        return Response(content=f"Error generating report: {str(e)}", status_code=500)
 
 @router.post("/report")
 async def generate_pdf_only():

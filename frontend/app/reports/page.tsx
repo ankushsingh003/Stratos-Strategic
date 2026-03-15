@@ -35,8 +35,14 @@ export default function ReportsPage() {
   const [reports, setReports] = useState<Report[]>(mockReports);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleDownload = (id: string) => {
-    window.open(`http://localhost:8000/api/report/download/${id}`, "_blank");
+  const handleDownload = (report: Report) => {
+    const params = new URLSearchParams({
+      company: report.company_name,
+      industry: report.industry.toLowerCase(),
+      region: "Global",
+      quarter: "Q4"
+    });
+    window.open(`http://localhost:8000/api/report/download/${report.id}?${params.toString()}`, "_blank");
   };
 
   return (
@@ -136,7 +142,7 @@ export default function ReportsPage() {
 
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => handleDownload(report.id)}
+                  onClick={() => handleDownload(report)}
                   className="flex items-center gap-2 px-4 py-2 bg-slate-950 hover:bg-emerald-500 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-600 rounded-xl transition-all font-medium text-sm group/btn"
                 >
                   <Download className="w-4 h-4 group-hover/btn:animate-bounce" />

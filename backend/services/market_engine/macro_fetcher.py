@@ -25,7 +25,10 @@ class MacroFetcher:
         - "gdp_growth": float (e.g., 2.5)
         - "inflation_rate": float (e.g., 3.8)
         - "interest_rate": float (e.g., 5.0)
-        - "summary": One sentence economic outlook.
+        - "monetary_policy": "hawkish"|"dovish"|"neutral"
+        - "consumer_confidence": "rising"|"stable"|"declining"
+        - "currency_stability": "strong"|"volatile"|"weak"
+        - "summary": A strategic one-paragraph macro-outlook summary for executives.
         
         Output ONLY valid JSON.
         """
