@@ -20,12 +20,12 @@ export default function GrowthGauge({ score, label, confidence }: { score: numbe
           style={{ transform: `rotate(${rotation}deg)` }}
         />
         <div className="absolute font-bold text-center w-full bottom-0 text-3xl">
-          {score.toFixed(2)}
+          {(score ?? 0).toFixed(2)}
         </div>
       </div>
       
       <div className={`mt-6 px-4 py-2 rounded-full font-bold ${getColor()}`}>
-        {label} ({(confidence * 100).toFixed(0)}% Conf.)
+        {label} ({((confidence ?? 0) * 100).toFixed(0)}% Conf.)
       </div>
     </div>
   );
