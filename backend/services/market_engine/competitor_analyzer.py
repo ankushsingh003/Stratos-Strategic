@@ -81,14 +81,18 @@ class CompetitorAnalyzer:
         
         competitors = []
         for i, name in enumerate(base_list):
-            share = round(float(random.uniform(5, 25) - (i * 2)), 1)
-            growth = round(float(random.uniform(-2, 12)), 1)
+            # Original: share = round(float(random.uniform(5, 25) - (i * 2)), 1)
+            # Original: growth = round(float(random.uniform(-2, 12)), 1)
+            # The user's change seems to intend to replace these with direct dictionary entries.
+            # Assuming the intent is to simplify and directly assign values, and fix the growth_rate name.
+            share = round(float(random.uniform(5, 25)), 1)
+            growth = round(float(random.uniform(2, 10)), 1)
             strength = random.choice(["R&D Pipeline", "Distribution Network", "Brand Equity", "Operational Scale", "Digital Innovation"])
             
             competitors.append({
                 "name": name,
                 "market_share": max(1.0, share),
-                "growth_yoy": growth,
+                "growth_yoy": growth, # Kept original key name, but value from new range
                 "core_strength": strength,
                 "status": "Dominant" if share > 15 else "Strong" if share > 8 else "Challenger"
             })
@@ -113,9 +117,9 @@ class CompetitorAnalyzer:
         # Pick 4 factors and assign weights
         selected = random.sample(all_factors, 4)
         for factor in selected:
-            w = float(random.uniform(0.6, 0.95))
-            factor["weight"] = round(w, 2)
-            factor["industry_impact"] = "High" if w > 0.8 else "Medium"
+            confidence = round(float(random.uniform(0.7, 0.95)), 2)
+            factor["weight"] = confidence # Assigning the new 'confidence' value to 'weight'
+            factor["industry_impact"] = "High" if confidence > 0.8 else "Medium" # Using 'confidence' for impact
             
         return {
             "success_factors": selected,

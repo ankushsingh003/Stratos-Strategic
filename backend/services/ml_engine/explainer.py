@@ -38,7 +38,7 @@ class SHAPExplainer:
         """
         
         try:
-            res = await claude_client.generate(prompt)
+            res = await gemini_client.generate(prompt)
             clean_json = res.strip().replace("```json", "").replace("```", "")
             return json.loads(clean_json)
         except Exception as e:
@@ -64,12 +64,12 @@ class SHAPExplainer:
             total += abs(v)
 
         # Normalize to percentages for display
-        shap_pct = {k: round(abs(v) / total * 100, 1) for k, v in shap_values.items()}
+        shap_pct = {k: round(float(abs(v) / total * 100), 1) for k, v in shap_values.items()}
         top_factors = sorted(shap_pct.items(), key=lambda x: x[1], reverse=True)[:5]
 
         return {
             "method": "SHAP (TreeExplainer Fallback)",
-            "base_value": round(random.uniform(0.3, 0.5), 3),
+            "base_value": round(float(random.uniform(0.3, 0.5)), 3),
             "model_label": ml_result.get("label", "Unknown"),
             "top_features": [{"feature": k, "importance_pct": v, "raw_shap": shap_values[k]} for k, v in top_factors],
             "summary": f"The top driver of the '{ml_result.get('label')}' prediction is '{top_factors[0][0]}' with {top_factors[0][1]}% contribution."
@@ -106,7 +106,7 @@ class LIMEExplainer:
         """
         
         try:
-            res = await claude_client.generate(prompt)
+            res = await gemini_client.generate(prompt)
             clean_json = res.strip().replace("```json", "").replace("```", "")
             return json.loads(clean_json)
         except Exception as e:
@@ -118,10 +118,10 @@ class LIMEExplainer:
         await asyncio.sleep(0.1)
 
         segments = [
-            {"segment": "Q4 Revenue Spike", "impact": "positive", "weight": round(random.uniform(0.2, 0.5), 3)},
-            {"segment": "Q2 Inventory Drawdown", "impact": "negative", "weight": round(random.uniform(0.05, 0.2), 3)},
-            {"segment": "Year-on-Year Growth Trend", "impact": "positive", "weight": round(random.uniform(0.1, 0.4), 3)},
-            {"segment": "Macroeconomic Headwinds", "impact": "negative", "weight": round(random.uniform(0.05, 0.15), 3)},
+            {"segment": "Q4 Revenue Spike", "impact": "positive", "weight": round(float(random.uniform(0.2, 0.5)), 3)},
+            {"segment": "Q2 Inventory Drawdown", "impact": "negative", "weight": round(float(random.uniform(0.05, 0.2)), 3)},
+            {"segment": "Year-on-Year Growth Trend", "impact": "positive", "weight": round(float(random.uniform(0.1, 0.4)), 3)},
+            {"segment": "Macroeconomic Headwinds", "impact": "negative", "weight": round(float(random.uniform(0.05, 0.15)), 3)},
         ]
         segments.sort(key=lambda x: x["weight"], reverse=True)
 
