@@ -205,9 +205,9 @@ export default function MarketSignalsPage() {
                     </motion.div>
                   ))}
                 </div>
-                <button className="w-full mt-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-750 transition-colors text-sm font-semibold flex items-center justify-center gap-2">
+                <Link href={`/audit/${industry}`} className="w-full mt-6 py-3 rounded-xl bg-slate-800 hover:bg-emerald-600 transition-colors text-sm font-semibold flex items-center justify-center gap-2">
                   View Full Industry Audit <ChevronRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
