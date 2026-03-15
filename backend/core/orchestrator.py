@@ -12,7 +12,7 @@ from backend.services.market_engine.sentiment import sentiment_analyzer
 from backend.services.llm_engine.report_generator import report_generator
 from backend.services.llm_engine.gemini_client import gemini_client
 from backend.services.observability.mlflow_tracker import mlflow_tracker, langfuse_tracer
-from backend.services.market_engine.rag_agent import rag_agent
+# from backend.services.market_engine.rag_agent import rag_agent
 
 logger = logging.getLogger(__name__)
 

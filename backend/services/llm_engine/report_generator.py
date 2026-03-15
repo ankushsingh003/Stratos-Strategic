@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ReportGenerator:
-    """Coordinates the dynamic prompt building and calls the Claude API."""
+    """Coordinates the dynamic prompt building and calls the Gemini API."""
     
     async def generate_consultancy_report(self, ml_output: dict, market_data: dict, company_input: dict) -> str:
         logger.info(f"Generating consultancy report for {company_input.get('company_name', 'Company')}")

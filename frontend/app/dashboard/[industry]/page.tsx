@@ -20,6 +20,9 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s timeout
+
         const response = await fetch("http://localhost:8000/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -28,10 +31,13 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
             industry: params.industry,
             region: "Global",
             quarter: selectedQuarter
-          })
+          }),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
         
         const result = await response.json();
+        console.log("Analysis Result:", result);
         setData(result);
       } catch (err) {
         console.error("Fetch Error:", err);
@@ -60,7 +66,7 @@ export default function Dashboard({ params }: { params: { industry: string } }) 
           Running Orchestrator Pipeline...
         </motion.h2>
         <p className="text-slate-500 text-sm max-w-sm text-center font-mono">
-          Querying Pinecone RAG ➔ Executing 4-Model ML Ensemble (TabNet, XGBoost, LSTM, Prophet) ➔ Calling Claude 3.5...
+          Querying Pinecone RAG ➔ Executing Industry-Specific ML Engine ➔ Calling Gemini 1.5 Flash...
         </p>
       </div>
     );

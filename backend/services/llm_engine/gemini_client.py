@@ -1,6 +1,7 @@
 import google.generativeai as genai
 import os
 import logging
+import dotenv
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -9,6 +10,7 @@ class GeminiClient:
     """Wrapper for the Google Gemini API to generate market intelligence."""
     
     def __init__(self):
+        dotenv.load_dotenv()
         # Allow running without API key for initial scaffolding/testing
         api_key = os.environ.get("GEMINI_API_KEY")
         

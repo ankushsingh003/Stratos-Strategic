@@ -30,15 +30,28 @@ class MLflowTracker:
 
     def log_model_output(self, ml_result: dict):
         self.log_params({
-            "ensemble_label": ml_result.get("label"),
-            "ensemble_confidence": ml_result.get("confidence"),
+            "industry": ml_result.get("industry", "general"),
+            "prediction_label": ml_result.get("label"),
+            "prediction_score": ml_result.get("score"),
+            "engine_confidence": ml_result.get("confidence"),
         })
-        self.log_metrics({
-            "xgboost_score": ml_result["details"]["xgboost"]["score"],
-            "tabnet_score": ml_result["details"]["tabnet"]["score"],
-            "lstm_growth_rate": ml_result["details"]["lstm"]["growth_rate"],
-            "prophet_growth_rate": ml_result["details"]["prophet"]["growth_rate"],
-        })
+        
+        # Log generic metrics if present
+        metrics_dict = ml_result.get("metrics", {})
+        if metrics_dict:
+            self.log_metrics(metrics_dict)
+            
+        # Log legacy detail scores if they exist (for backward compatibility during transition)
+        details = ml_result.get("details", {})
+        if details:
+            summary_metrics = {}
+            for model_name, model_data in details.items():
+                if isinstance(model_data, dict):
+                    val = model_data.get("score") or model_data.get("growth_rate")
+                    if val is not None:
+                        summary_metrics[f"{model_name}_metric"] = float(val)
+            if summary_metrics:
+                self.log_metrics(summary_metrics)
 
     def end_run(self):
         logger.info(f"[MLflow] Run {self.run_id} ended.")
@@ -47,7 +60,7 @@ class MLflowTracker:
 
 class LangfuseTracer:
     """
-    Mock Langfuse tracer that logs LLM token usage and latency.
+    Mock Langfuse tracer that logs LLM token usage and latency (Gemini/Claude).
     In production: from langfuse import Langfuse; client = Langfuse(...)
     """
 
