@@ -20,7 +20,12 @@ export default function MarketSignalsPage() {
   const [signals, setSignals] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const industries = ["printing", "pharma", "cosmetics", "tech"];
+  const industries = [
+    "printing", "pharma", "tech", "cosmetics",
+    "oil", "coal", "finance", "retail",
+    "real_estate", "energy", "aviation", "logistics",
+    "agriculture", "media", "healthcare", "insurance"
+  ];
 
   useEffect(() => {
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
