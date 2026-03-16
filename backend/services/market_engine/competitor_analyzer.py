@@ -5,6 +5,7 @@ import hashlib
 import json
 from typing import List, Dict, Any
 from backend.services.llm_engine.gemini_client import gemini_client
+from backend.services.llm_engine.groq_client import groq_client
 
 logger = logging.getLogger(__name__)
 
@@ -39,12 +40,6 @@ class CompetitorAnalyzer:
         return int(hashlib.md5(industry.lower().encode()).hexdigest(), 16) % 10**8
 
     async def get_industry_intelligence(self, industry: str) -> Dict[str, Any]:
-        if gemini_client.mock_mode:
-            logger.info("[CompetitorAnalyzer] MOCK mode — using real name lookup tables.")
-            competitors = await self._get_mock_competitors(industry)
-            signals = await self._get_mock_signals(industry)
-            return {"competitors": competitors, **signals}
-
         prompt = f"""
         You are a Senior Market Intelligence Analyst at McKinsey. Analyze the '{industry}' industry.
 
@@ -83,17 +78,35 @@ class CompetitorAnalyzer:
         Status must be one of: "Dominant", "Strong", "Challenger"
         """
 
-        try:
-            response_text = await gemini_client.generate(prompt)
-            import re
-            match = re.search(r"(\{.*\})", response_text, re.DOTALL)
-            clean_json = match.group(1) if match else response_text.strip()
-            return json.loads(clean_json)
-        except Exception as e:
-            logger.error(f"[CompetitorAnalyzer] LLM error: {e}. Falling back to real name lookup.")
-            competitors = await self._get_mock_competitors(industry)
-            signals = await self._get_mock_signals(industry)
-            return {"competitors": competitors, **signals}
+        # Try Groq First (Higher Rate Limits)
+        if not groq_client.mock_mode:
+            try:
+                logger.info("[CompetitorAnalyzer] Attempting analysis with GROQ...")
+                response_text = await groq_client.generate(prompt)
+                import re
+                match = re.search(r"(\{.*\})", response_text, re.DOTALL)
+                clean_json = match.group(1) if match else response_text.strip()
+                return json.loads(clean_json)
+            except Exception as e:
+                logger.warning(f"[CompetitorAnalyzer] Groq failed: {e}. Falling back to Gemini.")
+
+        # Fallback to Gemini
+        if not gemini_client.mock_mode:
+            try:
+                logger.info("[CompetitorAnalyzer] Attempting analysis with GEMINI...")
+                response_text = await gemini_client.generate(prompt)
+                import re
+                match = re.search(r"(\{.*\})", response_text, re.DOTALL)
+                clean_json = match.group(1) if match else response_text.strip()
+                return json.loads(clean_json)
+            except Exception as e:
+                logger.error(f"[CompetitorAnalyzer] Gemini also failed: {e}. Falling back to real-name mock.")
+
+        # Final Fallback to Mock with Real Names
+        logger.info("[CompetitorAnalyzer] Using internal real-name lookup fallback.")
+        competitors = await self._get_mock_competitors(industry)
+        signals = await self._get_mock_signals(industry)
+        return {"competitors": competitors, **signals}
 
     async def _get_mock_competitors(self, industry: str) -> List[Dict[str, Any]]:
         logger.info(f"[CompetitorAnalyzer] Building real-name competitor list for {industry}")
