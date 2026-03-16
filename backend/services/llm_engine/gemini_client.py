@@ -21,7 +21,7 @@ class GeminiClient:
             self.mock_mode = True
         else:
             genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.model = genai.GenerativeModel('gemini-2.0-flash')
             self.mock_mode = False
             
     async def generate(self, prompt: str, max_tokens: int = 4000, retries: int = 5) -> str:
