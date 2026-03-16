@@ -25,7 +25,7 @@ class GeminiClient:
     async def generate(self, prompt: str, max_tokens: int = 4000, retries: int = 5) -> str:
         """Sends a prompt to Gemini with exponential backoff for rate limits."""
         if self.mock_mode:
-            return self._mock_response()
+            return self._mock_response(prompt)
             
         import time
         import asyncio
@@ -53,30 +53,38 @@ class GeminiClient:
         
         return "Error: Maximum retries exceeded for LLM Service."
             
-    def _mock_response(self) -> str:
-        return """
+    def _mock_response(self, prompt: str) -> str:
+        # Detect industry slugs in the prompt for dynamic testing
+        slugs = ["oil", "tech", "pharma", "cosmetics", "finance", "retail", "real_estate", "energy", "aviation", "logistics", "agriculture", "media", "healthcare", "insurance", "coal", "printing"]
+        detected_slug = None
+        
+        lower_prompt = prompt.lower()
+        for slug in slugs:
+            if slug in lower_prompt:
+                detected_slug = slug
+                break
+        
+        industry_tag = f"\n\n[INDUSTRY:{detected_slug}]" if detected_slug else ""
+        
+        return f"""
 # Consultancy Report (GEMINI MOCK OUTPUT)
 
 ## 1. Executive Summary
-This company is showing strong resilience in a volatile market. The ML model predicts **Growth** with 85% confidence.
+This sector is showing strong resilience in a volatile market. Strategic indicators suggest **Expansion** with 85% confidence.
 
-## 2. Current Market Position
-Operating in a highly competitive sector with a 5.2% CAGR. The company maintains a leading edge due to strong customer retention.
+## 2. Market Dynamics
+Operating in a highly competitive landscape. Revenue growth is consistent with recent sectoral benchmarks.
 
-## 3. Growth / Saturation / Decline Analysis
+## 3. Growth Trajectory
 The trajectory is upward, driven by recent expansions and a stable supply chain.
 
-## 4. Key Risk Factors
-- Inflationary pressures increasing costs.
-- Aggressive new entrants (competitor delta: +4).
-
-## 5. Strategic Recommendations
+## 4. Key Strategic Recommendations
 1. Secure long-term supply contracts.
 2. Leverage high customer sentiment for upcoming launches.
 3. Invest heavily in digital transformation.
 
-## 6. 12-Month Outlook
-Steady upward climb over the next 4 quarters, outperforming the industry baseline.
-        """
+## 5. 12-Month Outlook
+Steady upward climb over the next 4 quarters, outperforming the industry baseline.{industry_tag}
+"""
 
 gemini_client = GeminiClient()
