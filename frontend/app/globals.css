@@ -37,7 +37,7 @@ body {
 }
 
 .glass-card:hover {
-  @apply shadow-2xl scale-[1.01] border-bcg-green-neon/50;
+  @apply shadow-2xl scale-[1.01] border-bcg-neon/50;
 }
 
 .bento-grid {
