@@ -274,73 +274,84 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                               </div>
                            </div>
 
-                           {/* 2. Action Plan - What to do */}
-                           <div className="bg-emerald-500/5 rounded-3xl p-8 border border-emerald-500/10">
-                              <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-6">Strategic Action Plan</h4>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                 {panels[activePanel].data?.inference?.action_plan?.map((step, i) => (
-                                    <div key={i} className="flex items-center gap-4">
-                                       <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs font-black text-emerald-400">
-                                          {i + 1}
-                                       </div>
-                                       <p className="text-sm font-bold text-white/90">{step}</p>
-                                    </div>
-                                 ))}
-                              </div>
-                           </div>
-
-                           {/* 3. Mechanics - How it works */}
-                           <div>
-                              <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-6">Operational Mechanics</h4>
-                              <div className="space-y-4">
-                                 {panels[activePanel].data?.inference?.mechanics?.map((mech, i) => (
-                                    <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between group/mech">
-                                       <span className="text-sm text-white/60">{mech}</span>
-                                       <div className="w-2 h-2 rounded-full bg-white/10 group-hover/mech:bg-emerald-500 transition-colors"></div>
-                                    </div>
-                                 ))}
-                              </div>
+                           <div className="pt-8 border-t border-white/5 opacity-50">
+                              <h4 className="text-[9px] uppercase tracking-widest text-white/40 mb-4">Signal Breakdown</h4>
+                              <p className="text-xs font-mono leading-relaxed">
+                                 {panels[activePanel].data?.short}
+                              </p>
                            </div>
                         </div>
                      </div>
 
                      <div className="p-8 lg:p-16 flex flex-col justify-between h-full bg-black/20">
                         <div>
-                           <div className="flex justify-between items-end mb-8">
-                             <div>
-                               <h4 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Market Sentiment</h4>
-                               <div className="flex items-center gap-2">
-                                  <span className="text-3xl font-black italic">BULLISH</span>
-                                  <ArrowUpRight className="text-emerald-400 w-6 h-6" />
-                               </div>
-                             </div>
-                             <div className="text-right">
-                               <span className="text-xs font-mono opacity-40">TICKER: {panels[activePanel].src}</span>
-                             </div>
-                           </div>
-                           
-                           <div className="bg-[#020617] rounded-3xl p-8 mb-12 border border-white/5 shadow-inner">
-                              <div className="flex justify-between items-center mb-6">
-                                 <span className="text-[10px] uppercase tracking-widest opacity-40">Real-time Flux</span>
-                                 <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                    <span className="text-[9px] font-bold">STREAMING</span>
+                         <div className="space-y-12">
+                            <div>
+                               <div className="flex justify-between items-end mb-8">
+                                 <div>
+                                   <h4 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Market Sentiment</h4>
+                                   <div className="flex items-center gap-2">
+                                      <span className="text-3xl font-black italic">BULLISH</span>
+                                      <ArrowUpRight className="text-emerald-400 w-6 h-6" />
+                                   </div>
                                  </div>
-                              </div>
-                              <MiniChart data={panels[activePanel].data?.trends || []} color={panels[activePanel].stroke} />
-                           </div>
-                        </div>
+                                 <div className="text-right">
+                                   <span className="text-xs font-mono opacity-40">TICKER: {panels[activePanel].src}</span>
+                                 </div>
+                               </div>
+                               
+                               <div className="bg-[#020617] rounded-3xl p-8 border border-white/5 shadow-inner">
+                                  <div className="flex justify-between items-center mb-6">
+                                     <span className="text-[10px] uppercase tracking-widest opacity-40">Real-time Flux</span>
+                                     <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                        <span className="text-[9px] font-bold">STREAMING</span>
+                                     </div>
+                                  </div>
+                                  <MiniChart data={panels[activePanel].data?.trends || []} color={panels[activePanel].stroke} />
+                               </div>
+                            </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                           <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
-                              <span className="text-[9px] uppercase opacity-40 block mb-1">Volatility Index</span>
-                              <span className="text-xl font-black italic">2.4%</span>
-                           </div>
-                           <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
-                              <span className="text-[9px] uppercase opacity-40 block mb-1">Signal Velocity</span>
-                              <span className="text-xl font-black italic">ULTRA-HIGH</span>
-                           </div>
-                        </div>
+                            {/* 2. Action Plan - Shifted Here */}
+                            <div className="bg-emerald-500/5 rounded-3xl p-8 border border-emerald-500/10">
+                               <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-6">Strategic Action Plan</h4>
+                               <div className="grid grid-cols-1 gap-6">
+                                  {panels[activePanel].data?.inference?.action_plan?.map((step, i) => (
+                                     <div key={i} className="flex items-start gap-4">
+                                        <div className="w-8 h-8 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs font-black text-emerald-400">
+                                           {i + 1}
+                                        </div>
+                                        <p className="text-sm font-bold text-white/90 leading-tight">{step}</p>
+                                     </div>
+                                  ))}
+                               </div>
+                            </div>
+
+                            {/* 3. Mechanics - Shifted Here */}
+                            <div>
+                               <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-6">Operational Mechanics</h4>
+                               <div className="space-y-4">
+                                  {panels[activePanel].data?.inference?.mechanics?.map((mech, i) => (
+                                     <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between group/mech">
+                                        <span className="text-sm text-white/60">{mech}</span>
+                                        <div className="w-2 h-2 rounded-full bg-white/10 group-hover/mech:bg-emerald-500 transition-colors"></div>
+                                     </div>
+                                  ))}
+                               </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                               <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
+                                  <span className="text-[9px] uppercase opacity-40 block mb-1">Volatility Index</span>
+                                  <span className="text-xl font-black italic">2.4%</span>
+                               </div>
+                               <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
+                                  <span className="text-[9px] uppercase opacity-40 block mb-1">Signal Velocity</span>
+                                  <span className="text-xl font-black italic">ULTRA-HIGH</span>
+                               </div>
+                            </div>
+                         </div>
+</div>
                      </div>
                   </div>
                </motion.div>
