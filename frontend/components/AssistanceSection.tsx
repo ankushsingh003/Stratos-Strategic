@@ -23,10 +23,10 @@ export default function AssistanceSection() {
 
   return (
     <section className="relative py-24 bg-[#0a0f1e] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-stretch gap-0 rounded-[40px] overflow-hidden shadow-2xl border border-white/5">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-stretch gap-0 rounded-[48px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)] border border-white/5">
           {/* Left Column: Interactive Selection Card */}
-          <div className="w-full lg:w-1/2 bg-white p-12 lg:p-20 flex flex-col justify-center">
+          <div className="w-full lg:w-[45%] bg-white p-12 lg:p-24 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ export default function AssistanceSection() {
           </div>
 
           {/* Right Column: Visual Component */}
-          <div className="w-full lg:w-1/2 relative bg-[#0a0f1e] overflow-hidden min-h-[400px]">
+          <div className="w-full lg:w-[55%] relative bg-[#0a0f1e] overflow-hidden min-h-[400px]">
             <motion.img
               initial={{ scale: 1.1, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
@@ -128,8 +128,8 @@ export default function AssistanceSection() {
               className="w-full h-full object-cover"
             />
             {/* Smooth transition overlays */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1e]/20 via-transparent to-[#0a0f1e]/20 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(10,15,30,0.8)] pointer-events-none" />
           </div>
         </div>
       </div>
