@@ -73,7 +73,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] text-[#143D2C] dark:text-white"
+            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.8] text-[#143D2C] dark:text-white"
           >
             STRATEGIC <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#143D2C] to-slate-500 dark:from-[#A1F28B] dark:to-white">CLARITY.</span>
           </motion.h1>
@@ -82,7 +82,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-slate-600 dark:text-slate-400 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium"
+            className="text-slate-600 dark:text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed font-medium"
           >
             Harness the power of AI-driven market analysis. We transform complex data signals into high-impact strategic insights for global enterprises.
           </motion.p>
