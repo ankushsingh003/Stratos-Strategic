@@ -95,11 +95,11 @@ export default function Home() {
           >
             <Link 
               href="#industries"
-              className="group flex items-center gap-4 bg-[#A1F28B] text-[#143D2C] px-10 py-5 rounded-full font-black uppercase tracking-widest text-sm transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(161,242,139,0.3)]"
+              className="group flex items-center gap-3 bg-[#A1F28B] text-[#143D2C] px-6 py-3 rounded-full font-black uppercase tracking-widest text-[11px] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(161,242,139,0.25)]"
             >
               Explore Our Expertise
-              <div className="w-10 h-10 bg-[#143D2C] text-[#A1F28B] rounded-full flex items-center justify-center transition-transform group-hover:translate-x-1">
-                <TrendingUp className="w-5 h-5" />
+              <div className="w-7 h-7 bg-[#143D2C] text-[#A1F28B] rounded-full flex items-center justify-center transition-transform group-hover:translate-x-1">
+                <TrendingUp className="w-3.5 h-3.5" />
               </div>
             </Link>
           </motion.div>
