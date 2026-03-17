@@ -163,90 +163,180 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
            </p>
         </motion.div>
 
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-3 h-auto md:h-[650px] mb-4">
-          {panels.slice(0, 4).map((panel, idx) => (
+        {/* Conditional Layout: Bento Grid or Focused Deep-Dive */}
+        {focusedPanelIdx !== -1 ? (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"
+          >
+             {/* Left Column: Briefing & Mechanics */}
+             <div className="bg-[#0f172a] border border-emerald-500/20 rounded-[32px] p-6 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-6 opacity-10 blur-xl w-32 h-32 bg-emerald-500 animate-pulse rounded-full"></div>
+                <div className="flex items-center gap-4 mb-6">
+                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-white/5 border ${panels[focusedPanelIdx].border}`}>
+                      {React.cloneElement(panels[focusedPanelIdx].icon as React.ReactElement, { className: "w-8 h-8", style: { color: panels[focusedPanelIdx].stroke } })}
+                   </div>
+                   <div>
+                      <h2 className="text-3xl font-black italic tracking-tighter uppercase leading-none">{panels[focusedPanelIdx].title}</h2>
+                      <p className="text-emerald-400 text-[10px] font-mono tracking-widest uppercase mt-1">Focused Strategic Deep-Dive</p>
+                   </div>
+                </div>
+
+                <div className="space-y-6">
+                   <div>
+                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-3 flex items-center gap-2">
+                         <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                         Analytical Insights
+                      </h4>
+                      <div className="space-y-3">
+                         {panels[focusedPanelIdx].data?.inference?.key_points?.map((point, i) => (
+                            <div key={i} className="flex items-start gap-4">
+                               <div className="mt-2 w-1.5 h-1.5 rounded-full bg-emerald-500/30"></div>
+                               <p className="text-base text-white/80 leading-relaxed font-medium">{point}</p>
+                            </div>
+                         ))}
+                      </div>
+                   </div>
+
+                   <div>
+                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-3">Operational Mechanics</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                         {panels[focusedPanelIdx].data?.inference?.mechanics?.map((mech, i) => (
+                            <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
+                               <span className="text-xs text-white/60 font-bold">{mech}</span>
+                               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                            </div>
+                         ))}
+                      </div>
+                   </div>
+                </div>
+             </div>
+
+             {/* Right Column: Growth & Action Plan */}
+             <div className="space-y-4">
+                <div className="bg-emerald-500/5 rounded-[32px] p-6 border border-emerald-500/10 h-full">
+                   <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-4 flex items-center gap-2">
+                      <Zap className="w-4 h-4" /> Strategic Action Plan
+                   </h4>
+                   <div className="space-y-3">
+                      {panels[focusedPanelIdx].data?.inference?.action_plan?.map((step, i) => (
+                         <motion.div 
+                           key={i}
+                           initial={{ opacity: 0, x: 20 }}
+                           animate={{ opacity: 1, x: 0 }}
+                           transition={{ delay: i * 0.1 }}
+                           className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
+                         >
+                            <div className="w-8 h-8 shrink-0 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-black text-[#020617]">
+                               {i + 1}
+                            </div>
+                            <p className="text-base font-bold text-white leading-tight">{step}</p>
+                         </motion.div>
+                      ))}
+                   </div>
+
+                   <div className="mt-6 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
+                      <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                         <span className="text-[9px] uppercase opacity-40 block mb-1">Market Sentiment</span>
+                         <span className="text-xl font-black italic flex items-center gap-2">BULLISH <ArrowUpRight className="text-emerald-400 w-4 h-4" /></span>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                         <span className="text-[9px] uppercase opacity-40 block mb-1">Signal Velocity</span>
+                         <span className="text-xl font-black italic">ULTRA-HIGH</span>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </motion.div>
+        ) : (
+          <>
+            {/* Bento Grid Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-3 h-auto md:h-[650px] mb-4">
+              {panels.slice(0, 4).map((panel, idx) => (
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    scale: panel.focus === capability ? 1.02 : 1
+                  }}
+                  transition={{ delay: idx * 0.1 }}
+                  onClick={() => setActivePanel(idx)}
+                  className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panel.color} rounded-[24px] p-5 border ${panel.focus === capability ? 'border-emerald-500/60 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : panel.border} relative overflow-hidden group cursor-pointer hover:border-emerald-400/50 transition-all`}
+                >
+                   {panel.focus === capability && (
+                     <div className="absolute top-0 right-0 bg-emerald-500 text-[#020617] text-[8px] font-black uppercase tracking-widest py-1 px-3 rounded-bl-xl z-20 animate-pulse">
+                       High Priority Focus
+                     </div>
+                   )}
+                   <div className="relative z-10 h-full flex flex-col">
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="flex items-center gap-4">
+                           <div className={`w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border ${panel.border}`}>
+                              {React.cloneElement(panel.icon as React.ReactElement, { className: "w-6 h-6", style: { color: panel.stroke } })}
+                           </div>
+                           <h3 className="text-xl font-black italic tracking-tighter uppercase">{panel.title}</h3>
+                        </div>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 p-2 rounded-full">
+                           <ArrowUpRight className="w-4 h-4" />
+                        </div>
+                      </div>
+                      <p className="text-base font-bold leading-snug mb-2 opacity-80">{panel.data?.short}</p>
+                      
+                      <div className="mt-auto">
+                        <div className="h-16 opacity-30 group-hover:opacity-60 transition-opacity">
+                           <MiniChart data={panel.data?.trends || [1,2,3]} color={panel.stroke} />
+                        </div>
+                         <div className="pt-3 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
+                            <span>INTELLIGENCE // REAL_TIME</span>
+                            <span className="text-emerald-400">ACTIVE_FEED</span>
+                         </div>
+                      </div>
+                   </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Panel 5: Operational Efficiency */}
             <motion.div 
-              key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ 
                 opacity: 1, 
                 y: 0,
-                scale: panel.focus === capability ? 1.02 : 1
+                scale: panels[4].focus === capability ? 1.02 : 1
               }}
-              transition={{ delay: idx * 0.1 }}
-              onClick={() => setActivePanel(idx)}
-              className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panel.color} rounded-[24px] p-5 border ${panel.focus === capability ? 'border-emerald-500/60 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : panel.border} relative overflow-hidden group cursor-pointer hover:border-emerald-400/50 transition-all`}
+              transition={{ delay: 0.4 }}
+              onClick={() => setActivePanel(4)}
+              className={`bg-gradient-to-r ${panels[4].color} rounded-[24px] p-5 border ${panels[4].focus === capability ? 'border-emerald-500/60 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : panels[4].border} relative overflow-hidden cursor-pointer group hover:border-emerald-400/50 transition-all`}
             >
-               {panel.focus === capability && (
+               {panels[4].focus === capability && (
                  <div className="absolute top-0 right-0 bg-emerald-500 text-[#020617] text-[8px] font-black uppercase tracking-widest py-1 px-3 rounded-bl-xl z-20 animate-pulse">
                    High Priority Focus
                  </div>
                )}
-               <div className="relative z-10 h-full flex flex-col">
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="flex items-center gap-4">
-                       <div className={`w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border ${panel.border}`}>
-                          {React.cloneElement(panel.icon as React.ReactElement, { className: "w-6 h-6", style: { color: panel.stroke } })}
-                       </div>
-                       <h3 className="text-xl font-black italic tracking-tighter uppercase">{panel.title}</h3>
-                    </div>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 p-2 rounded-full">
-                       <ArrowUpRight className="w-4 h-4" />
-                    </div>
+               <div className="flex flex-col md:flex-row items-center gap-2 relative z-10">
+                  <div className="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-cyan-500/20">
+                     {React.cloneElement(panels[4].icon as React.ReactElement, { className: "text-white w-6 h-6" })}
                   </div>
-                  <p className="text-base font-bold leading-snug mb-2 opacity-80">{panel.data?.short}</p>
-                  
-                  <div className="mt-auto">
-                    <div className="h-16 opacity-30 group-hover:opacity-60 transition-opacity">
-                       <MiniChart data={panel.data?.trends || [1,2,3]} color={panel.stroke} />
-                    </div>
-                     <div className="pt-3 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
-                        <span>INTELLIGENCE // REAL_TIME</span>
-                        <span className="text-emerald-400">ACTIVE_FEED</span>
+                  <div className="flex-1">
+                     <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-0.5">Operational Efficiency Engine</h3>
+                     <p className="text-lg font-bold italic leading-tight">{panels[4].data?.short}</p>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded-2xl border border-white/5 hidden lg:block min-w-[200px]">
+                     <div className="flex justify-between items-center mb-2">
+                        <span className="text-[10px] uppercase opacity-40">System_Health</span>
+                        <span className="text-[10px] text-emerald-400 font-bold">OPTIMAL</span>
+                     </div>
+                     <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} className="h-full bg-cyan-500" />
                      </div>
                   </div>
                </div>
             </motion.div>
-          ))}
-        </div>
-
-        {/* Panel 5: Operational Efficiency */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: panels[4].focus === capability ? 1.02 : 1
-          }}
-          transition={{ delay: 0.4 }}
-          onClick={() => setActivePanel(4)}
-          className={`bg-gradient-to-r ${panels[4].color} rounded-[24px] p-5 border ${panels[4].focus === capability ? 'border-emerald-500/60 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : panels[4].border} relative overflow-hidden cursor-pointer group hover:border-emerald-400/50 transition-all`}
-        >
-           {panels[4].focus === capability && (
-             <div className="absolute top-0 right-0 bg-emerald-500 text-[#020617] text-[8px] font-black uppercase tracking-widest py-1 px-3 rounded-bl-xl z-20 animate-pulse">
-               High Priority Focus
-             </div>
-           )}
-           <div className="flex flex-col md:flex-row items-center gap-2 relative z-10">
-              <div className="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-cyan-500/20">
-                 {React.cloneElement(panels[4].icon as React.ReactElement, { className: "text-white w-6 h-6" })}
-              </div>
-              <div className="flex-1">
-                 <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-0.5">Operational Efficiency Engine</h3>
-                 <p className="text-lg font-bold italic leading-tight">{panels[4].data?.short}</p>
-              </div>
-              <div className="bg-white/5 p-4 rounded-2xl border border-white/5 hidden lg:block min-w-[200px]">
-                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] uppercase opacity-40">System_Health</span>
-                    <span className="text-[10px] text-emerald-400 font-bold">OPTIMAL</span>
-                 </div>
-                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} className="h-full bg-cyan-500" />
-                 </div>
-              </div>
-           </div>
-        </motion.div>
+          </>
+        )}
 
         {/* Detail Overlay */}
         <AnimatePresence>
