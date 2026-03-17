@@ -24,17 +24,17 @@ export default function AssistanceSection() {
   return (
     <section className="flex flex-col md:flex-row min-h-[600px] w-full overflow-hidden bg-white">
       {/* Left Column: Interactive Selection */}
-      <div className="w-full md:w-1/2 bg-[#E8F5E9] p-12 lg:p-24 flex flex-col justify-center">
+      <div className="w-full md:w-1/2 bg-white p-12 lg:p-24 flex flex-col justify-center">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-xl"
         >
-          <h2 className="text-5xl lg:text-6xl font-light text-[#1B3022] mb-8 leading-tight">
+          <h2 className="text-5xl lg:text-6xl font-black text-[#1B3022] mb-8 leading-tight tracking-tighter">
             How can we assist you today?
           </h2>
-          <p className="text-lg text-[#2E4A35] mb-12 font-medium opacity-80">
+          <p className="text-lg text-slate-500 mb-12 font-medium">
             Learn more about our core areas of expertise by selecting your topic of interest.
           </p>
 
@@ -43,7 +43,7 @@ export default function AssistanceSection() {
             <div className="relative z-30">
               <button
                 onClick={() => setActiveTab(activeTab === 'capabilities' ? null : 'capabilities')}
-                className={`flex items-center justify-between gap-4 px-6 py-4 rounded-full border border-[#143D2C]/20 bg-transparent min-w-[240px] text-[#143D2C] font-semibold transition-all ${activeTab === 'capabilities' ? 'ring-2 ring-emerald-500 bg-white' : 'hover:bg-white/50'}`}
+                className={`flex items-center justify-between gap-4 px-6 py-4 rounded-full border border-[#143D2C]/10 bg-slate-50 min-w-[240px] text-[#143D2C] font-semibold transition-all ${activeTab === 'capabilities' ? 'ring-2 ring-emerald-500 bg-white shadow-lg' : 'hover:bg-slate-100'}`}
               >
                 {selectedCapability}
                 {activeTab === 'capabilities' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -80,7 +80,7 @@ export default function AssistanceSection() {
             <div className="relative z-20">
               <button
                 onClick={() => setActiveTab(activeTab === 'industries' ? null : 'industries')}
-                className={`flex items-center justify-between gap-4 px-6 py-4 rounded-full border border-[#143D2C]/20 bg-transparent min-w-[240px] text-[#143D2C] font-semibold transition-all ${activeTab === 'industries' ? 'ring-2 ring-emerald-500 bg-white' : 'hover:bg-white/50'}`}
+                className={`flex items-center justify-between gap-4 px-6 py-4 rounded-full border border-[#143D2C]/10 bg-slate-50 min-w-[240px] text-[#143D2C] font-semibold transition-all ${activeTab === 'industries' ? 'ring-2 ring-emerald-500 bg-white shadow-lg' : 'hover:bg-slate-100'}`}
               >
                 {selectedIndustry}
                 {activeTab === 'industries' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -117,16 +117,16 @@ export default function AssistanceSection() {
       </div>
 
       {/* Right Column: Visual Component */}
-      <div className="w-full md:w-1/2 relative bg-emerald-900 overflow-hidden min-h-[400px]">
+      <div className="w-full md:w-1/2 relative bg-[#0a0f1e] overflow-hidden min-h-[400px]">
         <motion.img
           initial={{ scale: 1.1, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2 }}
-          src="/abstract_green_waves_1773766556381.png"
+          src="/dark_emerald_waves.png"
           alt="Consultancy Visual"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-emerald-950/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
       </div>
 
       <style jsx>{`
