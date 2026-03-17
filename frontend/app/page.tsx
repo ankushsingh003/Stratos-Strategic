@@ -72,7 +72,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-[#143D2C] dark:text-white"
+            className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-[#143D2C] dark:text-white"
           >
             STRATEGIC <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#143D2C] to-slate-500 dark:from-[#A1F28B] dark:to-white">CLARITY.</span>
@@ -107,7 +107,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative h-[500px] lg:h-[700px] w-full bg-slate-100 dark:bg-slate-900 rounded-[48px] overflow-hidden group shadow-2xl border border-white/10"
+          className="relative h-[400px] lg:h-[550px] w-full bg-slate-100 dark:bg-slate-900 rounded-[40px] overflow-hidden group shadow-2xl border border-white/10"
         >
           {/* Background Technical Grid */}
           <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none" 
@@ -122,15 +122,15 @@ export default function Home() {
                     <motion.div 
                        animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }}
                        transition={{ repeat: Infinity, duration: 3 }}
-                       className="absolute inset-[-40px] bg-[#A1F28B] rounded-full blur-3xl" 
+                       className="absolute inset-[-30px] bg-[#A1F28B] rounded-full blur-2xl" 
                     />
-                    <div className="h-32 w-32 bg-[#A1F28B] rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(161,242,139,0.4)] relative border-4 border-white/20">
-                       <Zap className="w-16 h-16 text-[#143D2C]" />
+                    <div className="h-24 w-24 bg-[#A1F28B] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(161,242,139,0.4)] relative border-[3px] border-white/20">
+                       <Zap className="w-12 h-12 text-[#143D2C]" />
                     </div>
                   </div>
-                  <div className="mt-8 text-center">
-                    <div className="text-xl font-black text-[#143D2C] dark:text-white tracking-widest uppercase mb-1">Neural Engine</div>
-                    <div className="text-[10px] font-bold text-[#A1F28B] uppercase tracking-[0.4em] animate-pulse">Core Unit Active</div>
+                  <div className="mt-6 text-center">
+                    <div className="text-lg font-black text-[#143D2C] dark:text-white tracking-widest uppercase mb-1">Neural Engine</div>
+                    <div className="text-[9px] font-bold text-[#A1F28B] uppercase tracking-[0.4em] animate-pulse">Core Unit Active</div>
                   </div>
                </div>
 
