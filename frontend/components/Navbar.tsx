@@ -29,11 +29,16 @@ export default function Navbar() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() || 0;
-    if (latest > previous && latest > 150) {
+    
+    // Hide when scrolling down and past a small threshold
+    if (latest > previous && latest > 100) {
       setHidden(true);
-    } else {
+    } 
+    // Show ONLY when near the very top
+    else if (latest < 10) {
       setHidden(false);
     }
+    // Otherwise (scrolling up but not at top), remain hidden
   });
 
   return (
