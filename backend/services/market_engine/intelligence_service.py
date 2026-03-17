@@ -117,16 +117,20 @@ class IntelligenceService:
         return {"short": "Strategic Growth: Consolidation phase starting. High-value acquisitions projected.", "raw": [], "trends": [100, 105, 102, 110, 108, 115, 120]}
 
     async def generate_master_inference(self, all_data: Dict[str, Any]) -> str:
-        """ Generates a global strategy synthesis considering all data sources and their relations """
+        """ Generates a global, multi-faceted strategy synthesis across all signals """
         try:
             # Construct a rich context object for the LLM
             context = json.dumps({k: v.get("short") for k, v in all_data.items()}, indent=2)
             prompt = f"""
-            System: You are a Lead Human Strategy Consultant.
-            Context: {context}
-            Task: Synthesis cross-pillar relations (digital, operational, regulatory).
-            Output: TWO SHARP LINES of strategic take. 
-            Style: Direct, insightful, no AI "synergy" fluff. Tell the client exactly where to put their money.
+            System: You are the Chief Strategy Officer and Lead Consultant.
+            Data Context: {context}
+            Task: Create a holistic 'Master Strategic Synthesis' of the entire industry landscape.
+            Analyze:
+            - The convergence of digital (HL7/FHIR) and operational efficiency.
+            - How regulatory safety signals impact financial growth and M&A.
+            - The compounding value of an integrated digital-first infrastructure.
+            Provide a detailed, multi-paragraph expert take that explains the 'Why' behind every trend. 
+            This should be a comprehensive brief for the Board of Directors.
             """
             chat_completion = self.client.chat.completions.create(
                 messages=[{"role": "user", "content": prompt}],
@@ -135,7 +139,7 @@ class IntelligenceService:
             return chat_completion.choices[0].message.content
         except Exception as e:
             logger.error(f"Master Inference Error: {e}")
-            return "Combining HL7/FHIR interoperability with AI labor optimization will shield you from regulatory fallout.\nRefining cost structures now is the only way to sustain this M&A pace through Q4."
+            return "Holistic Strategic Outlook: The convergence of real-time clinical data streams and AI-driven operational optimization represents the most significant margin expansion opportunity in this cycle. By bridging the gap between regulatory compliance and digital transformation, the enterprise can de-risk its capital allocation while accelerating its acquisition and consolidation timeline. This integrated approach ensures long-term market leadership through technical agility and data-driven decision making."
 
     async def get_full_report(self) -> Dict[str, Any]:
         tasks = [

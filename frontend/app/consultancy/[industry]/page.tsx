@@ -143,7 +143,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
              <div className="w-1 h-3 bg-emerald-500 rounded-full"></div>
              Master Strategic Synthesis
            </h3>
-           <p className="text-lg lg:text-xl font-bold italic leading-tight text-white/90 max-w-6xl whitespace-pre-line line-clamp-2">
+           <p className="text-lg lg:text-xl font-medium leading-relaxed text-white/90 max-w-5xl whitespace-pre-line">
               {report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}
            </p>
         </motion.div>
@@ -247,8 +247,8 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                         
                         <div className="space-y-8">
                            <div>
-                              <h4 className="text-[9px] uppercase tracking-widest text-white/40 mb-3">AI Strategic Outlook</h4>
-                              <p className="text-lg italic font-bold leading-relaxed text-white/90">
+                              <h4 className="text-[9px] uppercase tracking-widest text-white/40 mb-4">Deep Strategy Analysis</h4>
+                              <p className="text-base font-normal leading-relaxed text-white/80 whitespace-pre-line">
                                  {panels[activePanel].data?.inference}
                               </p>
                            </div>
