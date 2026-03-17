@@ -119,7 +119,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             <div className="flex items-center gap-3 text-emerald-400 text-xs font-black uppercase tracking-[0.4em] mb-4">
               <Activity className="w-4 h-4" /> Live Intelligence Dashboard
             </div>
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+            <h1 className="text-4xl lg:text-6xl font-black tracking-tighter leading-none">
               STRATEGIC <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-white italic uppercase">{params.industry.replace('-',' ')} CORE.</span>
             </h1>
@@ -143,7 +143,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
              <div className="w-1 h-3 bg-emerald-500 rounded-full"></div>
              Master Strategic Synthesis
            </h3>
-           <p className="text-xl lg:text-3xl font-black italic leading-tight text-white max-w-6xl whitespace-pre-line line-clamp-2">
+           <p className="text-lg lg:text-xl font-bold italic leading-tight text-white/90 max-w-6xl whitespace-pre-line line-clamp-2">
               {report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}
            </p>
         </motion.div>
@@ -171,7 +171,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                        <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-lg font-bold leading-snug mb-8">{panel.data?.short}</p>
+                  <p className="text-base font-bold leading-snug mb-8 opacity-80">{panel.data?.short}</p>
                   
                   <div className="mt-auto">
                     <div className="h-16 opacity-30 group-hover:opacity-60 transition-opacity">
@@ -242,13 +242,13 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                         <div className={`w-16 h-16 rounded-3xl mb-12 flex items-center justify-center bg-white/5 border ${panels[activePanel].border}`}>
                            {React.cloneElement(panels[activePanel].icon as React.ReactElement, { className: "w-8 h-8", style: { color: panels[activePanel].stroke } })}
                         </div>
-                        <h2 className="text-4xl lg:text-5xl font-black italic tracking-tighter mb-4 leading-none">{panels[activePanel].title}</h2>
-                        <p className="text-emerald-400 text-xs font-mono tracking-widest uppercase mb-12">DATA INTEGRITY // 100% SECURE</p>
+                        <h2 className="text-3xl lg:text-4xl font-black italic tracking-tighter mb-4 leading-none">{panels[activePanel].title}</h2>
+                        <p className="text-emerald-400 text-[9px] font-mono tracking-widest uppercase mb-12">DATA INTEGRITY // 100% SECURE</p>
                         
                         <div className="space-y-8">
                            <div>
-                              <h4 className="text-[10px] uppercase tracking-widest text-white/40 mb-3">AI Strategic Outlook</h4>
-                              <p className="text-xl italic font-bold leading-relaxed text-white">
+                              <h4 className="text-[9px] uppercase tracking-widest text-white/40 mb-3">AI Strategic Outlook</h4>
+                              <p className="text-lg italic font-bold leading-relaxed text-white/90">
                                  {panels[activePanel].data?.inference}
                               </p>
                            </div>
