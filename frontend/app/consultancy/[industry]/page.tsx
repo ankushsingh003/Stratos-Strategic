@@ -158,7 +158,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
              <div className="w-1 h-3 bg-emerald-500 rounded-full"></div>
              Master Strategic Synthesis
            </h3>
-           <p className="text-lg lg:text-xl font-medium leading-tight text-white/90 max-w-5xl whitespace-pre-line">
+           <p className="text-base lg:text-lg font-bold leading-snug text-white/90 max-w-4xl whitespace-pre-line line-clamp-2">
               {report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}
            </p>
         </motion.div>

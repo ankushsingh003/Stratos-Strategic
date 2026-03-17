@@ -146,10 +146,11 @@ class IntelligenceService:
             System: You are the Lead Strategy Consultant.
             Context: {context}
             Task: Provide a holistic 'Master Strategic Synthesis'.
-            Constraint: Output exactly TWO technical, high-impact lines. 
-            CRITICAL: Do NOT mention any API names, website names, or technical protocol names (No CMS, FDA, FHIR, HL7, FMP). 
+            Constraint: Output exactly ONE OR TWO technical, high-impact lines. 
+            CRITICAL: Total word count must be under 35 words. Do NOT use bullet points.
+            CRITICAL: Do NOT mention any API names or technical protocol names.
             Focus: Interplay between digital-first infrastructure, regulatory safety, and strategic M&A growth.
-            Style: Sharp, professional, zero fluff. Use purely strategic business language.
+            Style: Extremely concise, professional, zero fluff.
             """
             chat_completion = self.client.chat.completions.create(
                 messages=[{"role": "user", "content": prompt}],
@@ -158,7 +159,7 @@ class IntelligenceService:
             return chat_completion.choices[0].message.content.strip()
         except Exception as e:
             logger.error(f"Master Inference Error: {e}")
-            return "Holistic Strategic Outlook: The convergence of real-time clinical data streams and AI-driven operational optimization represents the most significant margin expansion opportunity in this cycle.\nBy bridging the gap between regulatory compliance and digital transformation, the enterprise can de-risk its capital allocation while accelerating its acquisition and consolidation timeline."
+            return "Real-time clinical integration and AI-driven optimization represent the primary margin expansion opportunity this cycle. Bridging regulatory compliance with digital transformation will de-risk capital allocation and accelerate consolidation."
 
     async def get_full_report(self) -> Dict[str, Any]:
         # Check Cache
