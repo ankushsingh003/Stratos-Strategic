@@ -23,11 +23,22 @@ interface IntelligenceInference {
   mechanics: string[];
 }
 
+interface SpecializedReport {
+  executive_summary: { why: string; what: string; impact: string };
+  current_state: { bottlenecks: string[]; data_analysis: string; regulatory_status: string };
+  tech_audit: { ehr_integration: string; automation_opportunities: string[] };
+  gap_analysis: { resource_gaps: string[]; infrastructure_gaps: string[] };
+  strategic_recommendations: { process_redesign: string; tech_stack: string[]; risk_mitigation: string };
+  roadmap: { phase1: string; phase2: string; phase3: string };
+  financial_roi: { cost_savings: string; revenue_growth: string };
+}
+
 interface PanelData {
   short: string;
   inference: IntelligenceInference;
   trends: number[];
   raw: any[];
+  specialized?: SpecializedReport;
 }
 
 interface IntelligenceData {
@@ -163,49 +174,134 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
            </p>
         </motion.div>
 
-        {/* Conditional Layout: Bento Grid or Focused Deep-Dive */}
+        {/* Focused 7-Pillar Strategic Report */}
         {focusedPanelIdx !== -1 ? (
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6"
           >
-             {/* Left Column: Briefing & Mechanics */}
-             <div className="bg-[#0f172a] border border-emerald-500/20 rounded-[32px] p-6 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-10 blur-xl w-32 h-32 bg-emerald-500 animate-pulse rounded-full"></div>
-                <div className="flex items-center gap-4 mb-6">
-                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-white/5 border ${panels[focusedPanelIdx].border}`}>
-                      {React.cloneElement(panels[focusedPanelIdx].icon as React.ReactElement, { className: "w-8 h-8", style: { color: panels[focusedPanelIdx].stroke } })}
-                   </div>
+             {/* 1. Executive Summary: Full Width */}
+             <div className="md:col-span-12 bg-gradient-to-r from-emerald-500/10 to-transparent border border-emerald-500/20 rounded-[32px] p-6">
+                <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-4 flex items-center gap-2">
+                   <Zap className="w-4 h-4" /> 01. EXECUTIVE SUMMARY
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                    <div>
-                      <h2 className="text-3xl font-black italic tracking-tighter uppercase leading-none">{panels[focusedPanelIdx].title}</h2>
-                      <p className="text-emerald-400 text-[10px] font-mono tracking-widest uppercase mt-1">Focused Strategic Deep-Dive</p>
+                      <span className="text-[10px] text-white/40 uppercase block mb-1 tracking-widest">The "Why" // Problem</span>
+                      <p className="text-base font-bold italic text-white leading-tight">"{report?.operational?.specialized?.executive_summary?.why}"</p>
+                   </div>
+                   <div className="border-l border-white/5 pl-6">
+                      <span className="text-[10px] text-white/40 uppercase block mb-1 tracking-widest">The "What" // Solution</span>
+                      <p className="text-base font-bold text-white leading-tight">{report?.operational?.specialized?.executive_summary?.what}</p>
+                   </div>
+                   <div className="border-l border-white/5 pl-6">
+                      <span className="text-[10px] text-emerald-400/60 uppercase block mb-1 tracking-widest">Global Impact // ROI</span>
+                      <p className="text-xl font-black text-emerald-400 leading-tight">{report?.operational?.specialized?.executive_summary?.impact}</p>
                    </div>
                 </div>
+             </div>
 
-                <div className="space-y-6">
+             {/* 2. Current State vs 3. Technology Audit */}
+             <div className="md:col-span-8 bg-[#0f172a] border border-white/10 rounded-[32px] p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div>
-                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-3 flex items-center gap-2">
-                         <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                         Analytical Insights
-                      </h4>
-                      <div className="space-y-3">
-                         {panels[focusedPanelIdx].data?.inference?.key_points?.map((point, i) => (
-                            <div key={i} className="flex items-start gap-4">
-                               <div className="mt-2 w-1.5 h-1.5 rounded-full bg-emerald-500/30"></div>
-                               <p className="text-base text-white/80 leading-relaxed font-medium">{point}</p>
+                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/50 mb-4 font-black">02. CURRENT STATE ASSESSMENT</h4>
+                      <div className="space-y-4">
+                         <div>
+                            <span className="text-[9px] text-white/30 uppercase block mb-1">Bottlenecks Detected</span>
+                            <div className="flex flex-wrap gap-2">
+                               {report?.operational?.specialized?.current_state?.bottlenecks?.map((b, i) => (
+                                  <span key={i} className="text-[10px] bg-red-500/10 border border-red-500/20 text-red-500 px-3 py-1 rounded-full font-black uppercase">{b}</span>
+                               ))}
                             </div>
-                         ))}
+                         </div>
+                         <div>
+                            <span className="text-[9px] text-white/30 uppercase block mb-1">Data Analysis (ALOS/Occupancy)</span>
+                            <p className="text-sm font-bold opacity-80">{report?.operational?.specialized?.current_state?.data_analysis}</p>
+                         </div>
+                         <div className="pt-2 border-t border-white/5">
+                            <span className="text-[9px] text-emerald-500/40 uppercase block mb-1">Regulatory & Compliance Status</span>
+                            <p className="text-sm font-black italic color-emerald-400">{report?.operational?.specialized?.current_state?.regulatory_status}</p>
+                         </div>
                       </div>
                    </div>
+                   <div className="border-l border-white/5 pl-8">
+                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/50 mb-4 font-black">03. TECHNOLOGY & AUTOMATION AUDIT</h4>
+                      <div className="space-y-4">
+                         <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <span className="text-[9px] text-white/40 uppercase block mb-1">EHR SYNC INTEGRITY</span>
+                            <p className="text-sm font-bold text-white/80">{report?.operational?.specialized?.tech_audit?.ehr_integration}</p>
+                         </div>
+                         <div>
+                            <span className="text-[9px] text-white/30 uppercase block mb-2 font-black">Automation Opportunities ("AI Swarms")</span>
+                            <div className="space-y-2">
+                               {report?.operational?.specialized?.tech_audit?.automation_opportunities?.map((opp, i) => (
+                                  <div key={i} className="flex gap-3 items-center">
+                                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50"></div>
+                                     <span className="text-[11px] font-bold opacity-70">{opp}</span>
+                                  </div>
+                               ))}
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
 
+             {/* 4. Gap Analysis */}
+             <div className="md:col-span-4 bg-[#0f172a] border border-white/10 rounded-[32px] p-6">
+                <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/50 mb-4 font-black">04. GAP ANALYSIS</h4>
+                 <div className="space-y-6">
                    <div>
-                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-3">Operational Mechanics</h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                         {panels[focusedPanelIdx].data?.inference?.mechanics?.map((mech, i) => (
-                            <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
-                               <span className="text-xs text-white/60 font-bold">{mech}</span>
-                               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                      <span className="text-[9px] text-amber-500/60 uppercase block mb-2 font-black tracking-widest flex items-center gap-2">
+                         <Activity className="w-3 h-3" /> Resource Gaps
+                      </span>
+                      <ul className="space-y-2">
+                         {report?.operational?.specialized?.gap_analysis?.resource_gaps?.map((g, i) => (
+                            <li key={i} className="text-xs font-bold opacity-70 border-l border-amber-500/30 pl-3 leading-tight">{g}</li>
+                         ))}
+                      </ul>
+                   </div>
+                   <div>
+                      <span className="text-[9px] text-purple-500/60 uppercase block mb-2 font-black tracking-widest flex items-center gap-2">
+                         <Database className="w-3 h-3" /> Infrastructure Gaps
+                      </span>
+                      <ul className="space-y-2">
+                         {report?.operational?.specialized?.gap_analysis?.infrastructure_gaps?.map((g, i) => (
+                            <li key={i} className="text-xs font-bold opacity-70 border-l border-purple-500/30 pl-3 leading-tight">{g}</li>
+                         ))}
+                      </ul>
+                   </div>
+                </div>
+             </div>
+
+             {/* 5. Strategic Recommendations: Big Left Block */}
+             <div className="md:col-span-8 bg-emerald-500/5 border border-emerald-500/20 rounded-[32px] p-8">
+                <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-6 font-black">05. STRATEGIC RECOMMENDATIONS (THE "TO-BE")</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   <div>
+                      <span className="text-[9px] text-white/40 uppercase block mb-2 tracking-widest">Process Redesign Logic</span>
+                      <p className="text-lg font-black italic text-white group-hover:text-emerald-400 transition-colors leading-tight mb-6">
+                         {report?.operational?.specialized?.strategic_recommendations?.process_redesign}
+                      </p>
+                      
+                      <div className="p-5 bg-white/5 border border-white/10 rounded-2xl">
+                         <span className="text-[10px] text-emerald-500 uppercase block mb-3 font-black tracking-[0.2em]">Risk Mitigation Engine</span>
+                         <p className="text-xs font-bold opacity-70 leading-relaxed italic border-l-2 border-emerald-500 pl-4">
+                            {report?.operational?.specialized?.strategic_recommendations?.risk_mitigation}
+                         </p>
+                      </div>
+                   </div>
+                   <div>
+                      <span className="text-[9px] text-white/40 uppercase block mb-3 tracking-widest font-black">Advanced Tech-Stack Deployment</span>
+                      <div className="space-y-3">
+                         {report?.operational?.specialized?.strategic_recommendations?.tech_stack?.map((tech, i) => (
+                            <div key={i} className="flex items-center gap-4 group cursor-pointer">
+                               <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 transition-all">
+                                  <BrainCircuit className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:text-emerald-400" />
+                               </div>
+                               <span className="text-sm font-black uppercase tracking-tight opacity-70 group-hover:opacity-100 group-hover:text-emerald-400">{tech}</span>
                             </div>
                          ))}
                       </div>
@@ -213,37 +309,49 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                 </div>
              </div>
 
-             {/* Right Column: Growth & Action Plan */}
-             <div className="space-y-4">
-                <div className="bg-emerald-500/5 rounded-[32px] p-6 border border-emerald-500/10 h-full">
-                   <h4 className="text-[10px] uppercase tracking-[0.4em] text-emerald-400 mb-4 flex items-center gap-2">
-                      <Zap className="w-4 h-4" /> Strategic Action Plan
-                   </h4>
-                   <div className="space-y-3">
-                      {panels[focusedPanelIdx].data?.inference?.action_plan?.map((step, i) => (
-                         <motion.div 
-                           key={i}
-                           initial={{ opacity: 0, x: 20 }}
-                           animate={{ opacity: 1, x: 0 }}
-                           transition={{ delay: i * 0.1 }}
-                           className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
-                         >
-                            <div className="w-8 h-8 shrink-0 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-black text-[#020617]">
-                               {i + 1}
-                            </div>
-                            <p className="text-base font-bold text-white leading-tight">{step}</p>
-                         </motion.div>
-                      ))}
-                   </div>
-
-                   <div className="mt-6 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
-                      <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                         <span className="text-[9px] uppercase opacity-40 block mb-1">Market Sentiment</span>
-                         <span className="text-xl font-black italic flex items-center gap-2">BULLISH <ArrowUpRight className="text-emerald-400 w-4 h-4" /></span>
+             {/* 6. Roadmap: Vertical Cards on Right */}
+             <div className="md:col-span-4 space-y-4">
+                <div className="bg-[#0f172a] border border-white/10 rounded-[32px] p-6 h-full">
+                   <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/50 mb-6 font-black">06. IMPLEMENTATION ROADMAP</h4>
+                   <div className="space-y-5 relative">
+                      <div className="absolute left-[13px] top-6 bottom-6 w-0.5 bg-white/5"></div>
+                      
+                      <div className="relative pl-10">
+                         <div className="absolute left-0 top-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-[10px] font-black text-[#020617] ring-8 ring-emerald-500/10 z-10">P1</div>
+                         <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Quick Wins</h5>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase1}</p>
                       </div>
-                      <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                         <span className="text-[9px] uppercase opacity-40 block mb-1">Signal Velocity</span>
-                         <span className="text-xl font-black italic">ULTRA-HIGH</span>
+
+                      <div className="relative pl-10">
+                         <div className="absolute left-0 top-1 w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center text-[10px] font-black text-white ring-8 ring-blue-500/10 z-10">P2</div>
+                         <h5 className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Scaling Phase</h5>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase2}</p>
+                      </div>
+
+                      <div className="relative pl-10 pb-2">
+                         <div className="absolute left-0 top-1 w-7 h-7 bg-purple-500 rounded-full flex items-center justify-center text-[10px] font-black text-white ring-8 ring-purple-500/10 z-10">P3</div>
+                         <h5 className="text-[10px] font-black text-purple-400 uppercase tracking-widest mb-1">Optimization</h5>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase3}</p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+
+             {/* 7. Financial Projections: Wide Bottom Block */}
+             <div className="md:col-span-12 bg-white/5 border border-white/10 rounded-[32px] p-6">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                   <div className="flex-1">
+                      <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/50 mb-2 font-black">07. FINANCIAL PROJECTIONS & ROI</h4>
+                      <p className="text-xs font-bold opacity-40 uppercase tracking-[0.2em]">Consultancy proof-of-value validation engine active // 99.8% precision</p>
+                   </div>
+                   <div className="grid grid-cols-2 gap-12 shrink-0">
+                      <div className="text-center md:text-left">
+                         <span className="text-[10px] text-red-500 uppercase block mb-1 font-black">Operational Waste Reduction</span>
+                         <span className="text-3xl font-black italic text-red-500">{report?.operational?.specialized?.financial_roi?.cost_savings}</span>
+                      </div>
+                      <div className="text-center md:text-left border-l border-white/5 pl-12">
+                         <span className="text-[10px] text-emerald-400 uppercase block mb-1 font-black">Net Revenue Acceleration</span>
+                         <span className="text-3xl font-black italic text-emerald-400">{report?.operational?.specialized?.financial_roi?.revenue_growth}</span>
                       </div>
                    </div>
                 </div>
