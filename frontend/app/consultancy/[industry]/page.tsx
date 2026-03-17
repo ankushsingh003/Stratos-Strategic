@@ -134,14 +134,14 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mb-8 p-8 bg-gradient-to-r from-emerald-500/10 via-white/5 to-transparent rounded-[32px] border border-emerald-500/20 relative overflow-hidden"
+          className="mb-8 p-8 bg-gradient-to-r from-emerald-500/10 via-white/5 to-transparent rounded-[32px] border border-emerald-500/20 relative overflow-hidden group"
         >
-           <div className="absolute top-0 right-0 p-4 opacity-10">
+           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Zap className="w-12 h-12 text-emerald-400" />
            </div>
            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-400 mb-3">Master Strategic Synthesis</h3>
-           <p className="text-xl lg:text-2xl font-black italic leading-tight text-white max-w-5xl">
-              "{report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}"
+           <p className="text-xl lg:text-2xl font-black italic leading-tight text-white max-w-6xl whitespace-pre-line line-clamp-2">
+              {report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}
            </p>
         </motion.div>
 

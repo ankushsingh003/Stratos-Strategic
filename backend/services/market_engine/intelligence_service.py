@@ -121,12 +121,11 @@ class IntelligenceService:
             # Construct a rich context object for the LLM
             context = json.dumps({k: v.get("short") for k, v in all_data.items()}, indent=2)
             prompt = f"""
-            System: You are a Principal Cloud Strategy Architect and Lead Consultant.
+            System: You are a Tier-1 Principal Consultant.
             Data Context: {context}
-            Task: Analyze the INTERRELATIONS between these signals. 
-            For example, how do Regulatory safety events impact Strategic Growth? How does Digital HL7/FHIR interoperability improve Operational Efficiency?
-            Provide a 3-sentence 'Master Strategic Synthesis' that identifies the biggest cross-pillar opportunity.
-            Premium, high-impact tone only. No preamble.
+            Task: Synthesize cross-pillar relations between digital (HL7/FHIR), operational (labor-to-output), and regulatory signals.
+            Output exactly TWO CONCISE LINES of high-impact strategic intelligence.
+            Include all technical keywords but minimize filler. No preamble.
             """
             chat_completion = self.client.chat.completions.create(
                 messages=[{"role": "user", "content": prompt}],
@@ -135,7 +134,7 @@ class IntelligenceService:
             return chat_completion.choices[0].message.content
         except Exception as e:
             logger.error(f"Master Inference Error: {e}")
-            return "Global Outlook: Synergistic integration of real-time clinical data with optimized cost structures creates a significant market lead. Recommend immediate scaling of interoperability initiatives."
+            return "Synergized HL7/FHIR interoperability and AI-orchestrated labor optimization mitigate regulatory risks while accelerating consolidation.\nOptimized cost structures across digital/operational pillars unlock unprecedented margin expansion and market leadership."
 
     async def get_full_report(self) -> Dict[str, Any]:
         tasks = [
