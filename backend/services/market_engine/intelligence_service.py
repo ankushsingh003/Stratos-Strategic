@@ -16,7 +16,7 @@ class IntelligenceService:
         self.fmp_key = os.getenv("FMP_API_KEY")
         self.cms_id = os.getenv("CMS_DATASET_ID", "27ea-46a8")
         self.dt_key = os.getenv("DIGITAL_TRANSFORM_KEY")
-        self.groq_key = os.getenv("GROq_API_KEY")
+        self.groq_key = os.getenv("GROQ_API_KEY")
         self.client = Groq(api_key=self.groq_key)
         
         # Caching Layer
@@ -264,7 +264,5 @@ class IntelligenceService:
         self._cache = final_report
         self._cache_time = current_time
         return final_report
-
-intelligence_service = IntelligenceService()
 
 intelligence_service = IntelligenceService()
