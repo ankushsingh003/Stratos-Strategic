@@ -115,6 +115,28 @@ class IntelligenceService:
             logger.error(f"FMP Fetch Error: {e}")
         return {"short": "Strategic Growth: Consolidation phase starting. High-value acquisitions projected.", "raw": [], "trends": [100, 105, 102, 110, 108, 115, 120]}
 
+    async def generate_master_inference(self, all_data: Dict[str, Any]) -> str:
+        """ Generates a global strategy synthesis considering all data sources and their relations """
+        try:
+            # Construct a rich context object for the LLM
+            context = json.dumps({k: v.get("short") for k, v in all_data.items()}, indent=2)
+            prompt = f"""
+            System: You are a Principal Cloud Strategy Architect and Lead Consultant.
+            Data Context: {context}
+            Task: Analyze the INTERRELATIONS between these signals. 
+            For example, how do Regulatory safety events impact Strategic Growth? How does Digital HL7/FHIR interoperability improve Operational Efficiency?
+            Provide a 3-sentence 'Master Strategic Synthesis' that identifies the biggest cross-pillar opportunity.
+            Premium, high-impact tone only. No preamble.
+            """
+            chat_completion = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama-3.3-70b-versatile",
+            )
+            return chat_completion.choices[0].message.content
+        except Exception as e:
+            logger.error(f"Master Inference Error: {e}")
+            return "Global Outlook: Synergistic integration of real-time clinical data with optimized cost structures creates a significant market lead. Recommend immediate scaling of interoperability initiatives."
+
     async def get_full_report(self) -> Dict[str, Any]:
         tasks = [
             self.fetch_financial_advisory(),
@@ -124,25 +146,38 @@ class IntelligenceService:
         ]
         results = await asyncio.gather(*tasks)
         
-        # Generate inferences in parallel
+        # Build the initial data set
+        data_set = {
+            "financial": results[0],
+            "regulatory": results[1],
+            "digital": results[2],
+            "growth": results[3],
+            "operational": {
+                "short": "Operational Flux: Optimizing labor-to-output ratios by 12% via AI-orchestrated scheduling.",
+                "trends": [30, 32, 35, 38, 42, 45, 48]
+            }
+        }
+
+        # Generate individual inferences and the Master inference
         inference_tasks = [
-            self.generate_inference("Financial", results[0]["short"]),
-            self.generate_inference("Regulatory", results[1]["short"]),
-            self.generate_inference("Digital", results[2]["short"]),
-            self.generate_inference("Growth", results[3]["short"])
+            self.generate_inference("Financial", data_set["financial"]["short"]),
+            self.generate_inference("Regulatory", data_set["regulatory"]["short"]),
+            self.generate_inference("Digital", data_set["digital"]["short"]),
+            self.generate_inference("Growth", data_set["growth"]["short"]),
+            self.generate_master_inference(data_set)
         ]
         inferences = await asyncio.gather(*inference_tasks)
 
         return {
-            "financial": {**results[0], "inference": inferences[0]},
-            "regulatory": {**results[1], "inference": inferences[1]},
-            "digital": {**results[2], "inference": inferences[2]},
-            "growth": {**results[3], "inference": inferences[3]},
+            "financial": {**data_set["financial"], "inference": inferences[0]},
+            "regulatory": {**data_set["regulatory"], "inference": inferences[1]},
+            "digital": {**data_set["digital"], "inference": inferences[2]},
+            "growth": {**data_set["growth"], "inference": inferences[3]},
             "operational": {
-                "short": "Operational Flux: Optimizing labor-to-output ratios by 12% via AI-orchestrated scheduling.",
-                "inference": "Strategic Efficiency: Transitioning from reactive to predictive operational models will unlock 20% margin expansion by Q4.",
-                "trends": [30, 32, 35, 38, 42, 45, 48]
-            }
+                **data_set["operational"], 
+                "inference": "Strategic Efficiency: Transitioning from reactive to predictive operational models will unlock 20% margin expansion by Q4."
+            },
+            "master_inference": inferences[4]
         }
 
 intelligence_service = IntelligenceService()

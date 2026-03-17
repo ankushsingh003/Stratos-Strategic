@@ -129,6 +129,21 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
           </div>
         </header>
 
+        {/* Master Synthesis Banner */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-8 p-8 bg-gradient-to-r from-emerald-500/10 via-white/5 to-transparent rounded-[32px] border border-emerald-500/20 relative overflow-hidden"
+        >
+           <div className="absolute top-0 right-0 p-4 opacity-10">
+              <Zap className="w-12 h-12 text-emerald-400" />
+           </div>
+           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-400 mb-3">Master Strategic Synthesis</h3>
+           <p className="text-xl lg:text-2xl font-black italic leading-tight text-white max-w-5xl">
+              "{report?.master_inference || "Aggregating cross-pillar intelligence for global optimization..."}"
+           </p>
+        </motion.div>
+
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[750px] mb-6">
           {panels.slice(0, 4).map((panel, idx) => (
@@ -203,23 +218,23 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-[#020617]/90 backdrop-blur-xl p-6 lg:p-12 flex items-center justify-center"
+              className="fixed inset-0 z-50 bg-[#020617]/90 backdrop-blur-xl flex items-start justify-center overflow-y-auto p-4 md:p-12 lg:p-24"
             >
                <motion.div 
-                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  initial={{ scale: 0.9, opacity: 0, y: 40 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                  className="bg-[#0f172a] border border-white/10 rounded-[40px] w-full max-w-5xl overflow-hidden relative shadow-2xl"
+                  exit={{ scale: 0.9, opacity: 0, y: 40 }}
+                  className="bg-[#0f172a] border border-white/10 rounded-[40px] w-full max-w-5xl overflow-hidden relative shadow-2xl my-auto"
                >
                   <button 
                     onClick={() => setActivePanel(null)}
-                    className="absolute top-8 right-8 bg-white/10 p-3 rounded-full hover:bg-white/20 transition-colors z-20"
+                    className="absolute top-6 right-6 lg:top-8 lg:right-8 bg-white/10 p-3 rounded-full hover:bg-white/20 transition-colors z-20"
                   >
                     <X className="w-6 h-6" />
                   </button>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2">
-                     <div className="p-10 lg:p-16 border-r border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 h-auto">
+                     <div className="p-8 lg:p-16 border-r border-white/5 bg-gradient-to-b from-white/5 to-transparent">
                         <div className={`w-16 h-16 rounded-3xl mb-12 flex items-center justify-center bg-white/5 border ${panels[activePanel].border}`}>
                            {React.cloneElement(panels[activePanel].icon as React.ReactElement, { className: "w-8 h-8", style: { color: panels[activePanel].stroke } })}
                         </div>
@@ -235,20 +250,20 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                            </div>
                            <div className="bg-white/5 rounded-2xl p-6 border border-white/5">
                               <h4 className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Signal Breakdown</h4>
-                              <p className="text-sm font-medium leading-relaxed opacity-70">
+                              <p className="text-base font-medium leading-relaxed opacity-70">
                                  {panels[activePanel].data?.short}
                               </p>
                            </div>
                         </div>
                      </div>
 
-                     <div className="p-10 lg:p-16 flex flex-col justify-between">
+                     <div className="p-8 lg:p-16 flex flex-col justify-between h-full bg-black/20">
                         <div>
                            <div className="flex justify-between items-end mb-8">
                              <div>
                                <h4 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Market Sentiment</h4>
                                <div className="flex items-center gap-2">
-                                  <span className="text-3xl font-black">BULLISH</span>
+                                  <span className="text-3xl font-black italic">BULLISH</span>
                                   <ArrowUpRight className="text-emerald-400 w-6 h-6" />
                                </div>
                              </div>
@@ -257,19 +272,26 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                              </div>
                            </div>
                            
-                           <div className="bg-white/5 rounded-3xl p-8 mb-12 border border-white/5">
+                           <div className="bg-[#020617] rounded-3xl p-8 mb-12 border border-white/5 shadow-inner">
+                              <div className="flex justify-between items-center mb-6">
+                                 <span className="text-[10px] uppercase tracking-widest opacity-40">Real-time Flux</span>
+                                 <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span className="text-[9px] font-bold">STREAMING</span>
+                                 </div>
+                              </div>
                               <MiniChart data={panels[activePanel].data?.trends || []} color={panels[activePanel].stroke} />
                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                           <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                              <span className="text-[9px] uppercase opacity-40 block mb-1">Volatilty</span>
-                              <span className="text-lg font-bold">2.4%</span>
+                           <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
+                              <span className="text-[9px] uppercase opacity-40 block mb-1">Volatility Index</span>
+                              <span className="text-xl font-black italic">2.4%</span>
                            </div>
-                           <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                              <span className="text-[9px] uppercase opacity-40 block mb-1">Velocity</span>
-                              <span className="text-lg font-bold">HIGH</span>
+                           <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group hover:bg-white/10 transition-colors">
+                              <span className="text-[9px] uppercase opacity-40 block mb-1">Signal Velocity</span>
+                              <span className="text-xl font-black italic">ULTRA-HIGH</span>
                            </div>
                         </div>
                      </div>
@@ -280,7 +302,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
         </AnimatePresence>
 
         {/* Dashboard Footer */}
-        <footer className="mt-16 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-30 font-mono text-[10px] tracking-widest">
+        <footer className="mt-16 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-30 font-mono text-[10px] tracking-widest pb-12">
            <div className="flex gap-8">
               <span>ENGINE // llama-3.3-70b-versatile</span>
               <span>INFERENCE_SRC // GROQ-CLOUD</span>
