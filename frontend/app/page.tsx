@@ -223,28 +223,32 @@ export default function Home() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 no-scrollbar scroll-smooth"
           >
             {industries.map((ind) => (
-              <motion.div key={ind.id} variants={item}>
+              <motion.div 
+                key={ind.id} 
+                variants={item}
+                className="flex-shrink-0 w-[280px] md:w-[320px] snap-center"
+              >
                 <Link
                   href={`/dashboard/${ind.id}`}
-                  className="group relative flex flex-col justify-between p-10 h-72 rounded-[32px] bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:bg-[#143D2C] dark:hover:bg-[#A1F28B] transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden shadow-sm hover:shadow-2xl"
+                  className="group relative flex flex-col justify-between p-8 h-64 rounded-[28px] bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:bg-[#143D2C] dark:hover:bg-[#A1F28B] transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden shadow-sm hover:shadow-2xl"
                 >
-                  <div className="absolute top-0 right-0 p-8 transform translate-x-4 -translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
-                     <TrendingUp className="w-12 h-12 text-[#A1F28B] dark:text-[#143D2C]" />
+                  <div className="absolute top-0 right-0 p-6 transform translate-x-4 -translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
+                     <TrendingUp className="w-10 h-10 text-[#A1F28B] dark:text-[#143D2C]" />
                   </div>
 
-                  <div className={`p-4 rounded-2xl w-fit transition-colors duration-500 ${ind.color} group-hover:bg-white/10`}>
+                  <div className={`p-3 rounded-xl w-fit transition-colors duration-500 ${ind.color} group-hover:bg-white/10`}>
                     {ind.icon}
                   </div>
                   
                   <div>
-                    <h2 className="text-2xl font-black text-[#143D2C] dark:text-white group-hover:text-white dark:group-hover:text-[#143D2C] transition-colors duration-500 tracking-tight leading-none mb-2">
+                    <h2 className="text-xl font-black text-[#143D2C] dark:text-white group-hover:text-white dark:group-hover:text-[#143D2C] transition-colors duration-500 tracking-tight leading-none mb-2">
                       {ind.name}
                     </h2>
-                    <div className="flex items-center gap-2 group-hover:gap-4 transition-all duration-500 text-xs font-black uppercase tracking-widest text-[#A1F28B] group-hover:text-white/80 dark:group-hover:text-[#143D2C]/80">
-                      View Insights <div className="w-8 h-[2px] bg-current" />
+                    <div className="flex items-center gap-2 group-hover:gap-4 transition-all duration-500 text-[10px] font-black uppercase tracking-widest text-[#A1F28B] group-hover:text-white/80 dark:group-hover:text-[#143D2C]/80">
+                      View Insights <div className="w-6 h-[1px] bg-current" />
                     </div>
                   </div>
                 </Link>
