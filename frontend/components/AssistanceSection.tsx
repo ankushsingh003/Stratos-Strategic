@@ -114,6 +114,12 @@ export default function AssistanceSection() {
                   </AnimatePresence>
                 </div>
               </div>
+
+              {/* Developer Attribution */}
+              <div className="mt-12 pt-8 border-t border-[#143D2C]/5 flex justify-between items-center opacity-40 font-mono text-[10px] text-[#143D2C] tracking-tight">
+                <span className="uppercase font-bold">Protocol // Assistance_v4</span>
+                <span className="italic">engineered by ankush kumar singh</span>
+              </div>
             </motion.div>
           </div>
 
