@@ -71,6 +71,11 @@ class PDFRenderer:
         # --- Content Parsing ---
         pdf.set_text_color(30, 41, 59) # Slate 800
         
+        # Calculate effective page width
+        epw = pdf.w - 2 * 15 # A4 width is 210, using 15mm margins
+        pdf.set_left_margin(15)
+        pdf.set_right_margin(15)
+        
         lines = report_markdown.split("\n")
         in_code_block = False
         
@@ -92,19 +97,16 @@ class PDFRenderer:
                 continue
             
             if in_code_block:
-                # Render monospaced for flowcharts, handle non-latin chars gracefully
                 clean_line = line.encode("latin-1", errors="replace").decode("latin-1")
                 pdf.set_fill_color(241, 245, 249)
-                pdf.set_x(15)
-                pdf.cell(180, 5.5, clean_line, ln=True, fill=True)
+                # Use multi_cell for code to avoid overflow
+                pdf.multi_cell(epw, 5.5, clean_line, fill=True)
                 continue
             
-            # Skip empty lines
             if not line_stripped:
                 pdf.ln(4)
                 continue
             
-            # Skip leftover metadata tags
             if line_stripped.startswith("[INDUSTRY:"):
                 continue
             
@@ -112,30 +114,39 @@ class PDFRenderer:
             if line_stripped.startswith("|"):
                 pdf.set_font("helvetica", size=8)
                 pdf.set_text_color(30, 41, 59)
-                # Strip leading/trailing pipes and split
                 cells = [c.strip() for c in line_stripped.strip("|").split("|")]
-                col_w = 180 / max(len(cells), 1)
-                is_header = all(set(c.replace("-","").replace(":","").strip()) == set() or c.strip().startswith("-") for c in cells)
-                if is_header:
-                    continue  # skip separator rows
+                if not cells or all(not c.strip() for c in cells): continue
+                
+                # Detect header separators |---|---|
+                is_sep = all(set(c).issubset({'-', ':', ' '}) for c in cells)
+                if is_sep: continue
+                
+                col_w = epw / max(len(cells), 1)
                 is_bold = any(c.isupper() or c.startswith("**") for c in cells)
                 pdf.set_font("helvetica", "B" if is_bold else "", 8)
+                
+                # Record Y to handle multi-line cells if needed (simplified for high-tier layout)
+                start_x = pdf.get_x()
                 for cell in cells:
-                    pdf.cell(col_w, 7, cell[:35], border=1, ln=False)
+                    clean_cell = cell.replace("**", "").encode("latin-1", errors="replace").decode("latin-1")
+                    # Use a small width buffer
+                    pdf.cell(col_w, 7, clean_cell[:30], border=1, ln=False)
                 pdf.ln()
                 pdf.set_font("helvetica", size=11)
                 pdf.set_text_color(30, 41, 59)
                 continue
             
+            # Use latin-1 and replace non-supported chars to prevent crash
+            safe_line = line_stripped.encode("latin-1", errors="replace").decode("latin-1")
+
             # H1
             if line_stripped.startswith("# "):
                 pdf.ln(8)
                 pdf.set_font("helvetica", "B", 18)
                 pdf.set_text_color(15, 23, 42)
-                curr_y = pdf.get_y()
+                pdf.multi_cell(epw, 12, safe_line[2:].upper())
                 pdf.set_draw_color(16, 185, 129)
-                pdf.line(10, curr_y + 10, 70, curr_y + 10)
-                pdf.multi_cell(0, 12, line_stripped[2:].upper())
+                pdf.line(pdf.get_x(), pdf.get_y(), pdf.get_x() + 60, pdf.get_y())
                 pdf.ln(3)
                 pdf.set_font("helvetica", size=11)
                 pdf.set_text_color(30, 41, 59)
@@ -144,7 +155,7 @@ class PDFRenderer:
                 pdf.ln(5)
                 pdf.set_font("helvetica", "B", 14)
                 pdf.set_text_color(16, 185, 129)
-                pdf.multi_cell(0, 10, line_stripped[3:])
+                pdf.multi_cell(epw, 10, safe_line[3:])
                 pdf.set_font("helvetica", size=11)
                 pdf.set_text_color(30, 41, 59)
             # H3
@@ -152,24 +163,26 @@ class PDFRenderer:
                 pdf.ln(3)
                 pdf.set_font("helvetica", "B", 12)
                 pdf.set_text_color(51, 65, 85)
-                pdf.multi_cell(0, 9, line_stripped[4:])
+                pdf.multi_cell(epw, 9, safe_line[4:])
                 pdf.set_font("helvetica", size=11)
                 pdf.set_text_color(30, 41, 59)
             # Bullets
             elif line_stripped.startswith("- ") or line_stripped.startswith("* "):
-                pdf.set_x(15)
+                pdf.set_x(20) # Indent
                 pdf.set_font("helvetica", "B", 11)
                 pdf.cell(5, 7, ">", ln=False)
                 pdf.set_font("helvetica", size=11)
-                pdf.multi_cell(0, 7, line_stripped[2:])
+                # Available width = epw - (20+5 - 15) = epw - 10
+                pdf.multi_cell(epw - 10, 7, safe_line[2:])
             # Numbered lists
             elif len(line_stripped) > 2 and line_stripped[0].isdigit() and line_stripped[1] in ".):":
-                pdf.set_x(15)
+                pdf.set_x(20) # Indent
                 pdf.set_font("helvetica", size=11)
-                pdf.multi_cell(0, 7, line_stripped)
+                # Available width = epw - (20 - 15) = epw - 5
+                pdf.multi_cell(epw - 5, 7, safe_line)
             else:
                 pdf.set_font("helvetica", size=11)
-                pdf.multi_cell(0, 7, line_stripped)
+                pdf.multi_cell(epw, 7, safe_line)
                 pdf.ln(1)
 
         # --- Footer ---
