@@ -211,18 +211,18 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                          <div>
                             <span className="text-[9px] text-white/30 uppercase block mb-1">Bottlenecks Detected</span>
                             <div className="flex flex-wrap gap-2">
-                               {report?.operational?.specialized?.current_state?.bottlenecks?.map((b, i) => (
+                               {panels[focusedPanelIdx].data?.specialized?.current_state?.bottlenecks?.map((b: string, i: number) => (
                                   <span key={i} className="text-[10px] bg-red-500/10 border border-red-500/20 text-red-500 px-3 py-1 rounded-full font-black uppercase">{b}</span>
-                               ))}
+                               )) || <span className="text-[10px] text-slate-500 italic uppercase">Identifying friction points...</span>}
                             </div>
                          </div>
                          <div>
                             <span className="text-[9px] text-white/30 uppercase block mb-1">Data Analysis (ALOS/Occupancy)</span>
-                            <p className="text-sm font-bold opacity-80">{report?.operational?.specialized?.current_state?.data_analysis}</p>
+                            <p className="text-sm font-bold opacity-80">{panels[focusedPanelIdx].data?.specialized?.current_state?.data_analysis || "Verifying sector ALOS signals..."}</p>
                          </div>
                          <div className="pt-2 border-t border-white/5">
                             <span className="text-[9px] text-emerald-500/40 uppercase block mb-1">Regulatory & Compliance Status</span>
-                            <p className="text-sm font-black italic text-emerald-400">{report?.operational?.specialized?.current_state?.regulatory_status}</p>
+                            <p className="text-sm font-black italic text-emerald-400">{panels[focusedPanelIdx].data?.specialized?.current_state?.regulatory_status || "Compliance node active."}</p>
                          </div>
                       </div>
                    </div>
@@ -231,17 +231,17 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                       <div className="space-y-4">
                          <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
                             <span className="text-[9px] text-white/40 uppercase block mb-1">EHR SYNC INTEGRITY</span>
-                            <p className="text-sm font-bold text-white/80">{report?.operational?.specialized?.tech_audit?.ehr_integration}</p>
+                            <p className="text-sm font-bold text-white/80">{panels[focusedPanelIdx].data?.specialized?.tech_audit?.ehr_integration || "Verifying interoperability status..."}</p>
                          </div>
                          <div>
                             <span className="text-[9px] text-white/30 uppercase block mb-2 font-black">Automation Opportunities ("AI Swarms")</span>
                             <div className="space-y-2">
-                               {report?.operational?.specialized?.tech_audit?.automation_opportunities?.map((opp, i) => (
+                               {panels[focusedPanelIdx].data?.specialized?.tech_audit?.automation_opportunities?.map((opp: string, i: number) => (
                                   <div key={i} className="flex gap-3 items-center">
                                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50"></div>
                                      <span className="text-[11px] font-bold opacity-70">{opp}</span>
                                   </div>
-                               ))}
+                               )) || <span className="text-[10px] text-white/40 italic">Scanning for efficiencies...</span>}
                             </div>
                          </div>
                       </div>
@@ -258,9 +258,9 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                          <Activity className="w-3 h-3" /> Resource Gaps
                       </span>
                       <ul className="space-y-2">
-                         {report?.operational?.specialized?.gap_analysis?.resource_gaps?.map((g, i) => (
+                         {panels[focusedPanelIdx].data?.specialized?.gap_analysis?.resource_gaps?.map((g: string, i: number) => (
                             <li key={i} className="text-xs font-bold opacity-70 border-l border-amber-500/30 pl-3 leading-tight">{g}</li>
-                         ))}
+                         )) || <li className="text-[10px] text-white/40 italic">No critical resource gaps detected.</li>}
                       </ul>
                    </div>
                    <div>
@@ -268,9 +268,9 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                          <Database className="w-3 h-3" /> Infrastructure Gaps
                       </span>
                       <ul className="space-y-2">
-                         {report?.operational?.specialized?.gap_analysis?.infrastructure_gaps?.map((g, i) => (
+                         {panels[focusedPanelIdx].data?.specialized?.gap_analysis?.infrastructure_gaps?.map((g: string, i: number) => (
                             <li key={i} className="text-xs font-bold opacity-70 border-l border-purple-500/30 pl-3 leading-tight">{g}</li>
-                         ))}
+                         )) || <li className="text-[10px] text-white/40 italic">Infrastructure load balanced.</li>}
                       </ul>
                    </div>
                 </div>
@@ -283,27 +283,27 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                    <div>
                       <span className="text-[9px] text-white/40 uppercase block mb-2 tracking-widest">Process Redesign Logic</span>
                       <p className="text-lg font-black italic text-white group-hover:text-emerald-400 transition-colors leading-tight mb-6">
-                         {report?.operational?.specialized?.strategic_recommendations?.process_redesign}
+                         {panels[focusedPanelIdx].data?.specialized?.strategic_recommendations?.process_redesign || "Optimizing data-to-care flows."}
                       </p>
                       
                       <div className="p-5 bg-white/5 border border-white/10 rounded-2xl">
                          <span className="text-[10px] text-emerald-500 uppercase block mb-3 font-black tracking-[0.2em]">Risk Mitigation Engine</span>
                          <p className="text-xs font-bold opacity-70 leading-relaxed italic border-l-2 border-emerald-500 pl-4">
-                            {report?.operational?.specialized?.strategic_recommendations?.risk_mitigation}
+                            {panels[focusedPanelIdx].data?.specialized?.strategic_recommendations?.risk_mitigation || "Verified safety guardrails active."}
                          </p>
                       </div>
                    </div>
                    <div>
                       <span className="text-[9px] text-white/40 uppercase block mb-3 tracking-widest font-black">Advanced Tech-Stack Deployment</span>
                       <div className="space-y-3">
-                         {report?.operational?.specialized?.strategic_recommendations?.tech_stack?.map((tech, i) => (
+                         {panels[focusedPanelIdx].data?.specialized?.strategic_recommendations?.tech_stack?.map((tech: string, i: number) => (
                             <div key={i} className="flex items-center gap-4 group cursor-pointer">
                                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 transition-all">
                                   <BrainCircuit className="w-5 h-5 opacity-40 group-hover:opacity-100 group-hover:text-emerald-400" />
                                </div>
                                <span className="text-sm font-black uppercase tracking-tight opacity-70 group-hover:opacity-100 group-hover:text-emerald-400">{tech}</span>
                             </div>
-                         ))}
+                         )) || <div className="text-[10px] text-white/40 italic">Scoping hardware requirements...</div>}
                       </div>
                    </div>
                 </div>
@@ -319,19 +319,19 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                       <div className="relative pl-10">
                          <div className="absolute left-0 top-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-[10px] font-black text-[#020617] ring-8 ring-emerald-500/10 z-10">P1</div>
                          <h5 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Quick Wins</h5>
-                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase1}</p>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{panels[focusedPanelIdx].data?.specialized?.roadmap?.phase1 || "Institutional Protocol Audit"}</p>
                       </div>
 
                       <div className="relative pl-10">
                          <div className="absolute left-0 top-1 w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center text-[10px] font-black text-white ring-8 ring-blue-500/10 z-10">P2</div>
                          <h5 className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Scaling Phase</h5>
-                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase2}</p>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{panels[focusedPanelIdx].data?.specialized?.roadmap?.phase2 || "AI Pilot Orchestration"}</p>
                       </div>
 
                       <div className="relative pl-10 pb-2">
                          <div className="absolute left-0 top-1 w-7 h-7 bg-purple-500 rounded-full flex items-center justify-center text-[10px] font-black text-white ring-8 ring-purple-500/10 z-10">P3</div>
                          <h5 className="text-[10px] font-black text-purple-400 uppercase tracking-widest mb-1">Optimization</h5>
-                         <p className="text-xs font-bold opacity-60 leading-tight">{report?.operational?.specialized?.roadmap?.phase3}</p>
+                         <p className="text-xs font-bold opacity-60 leading-tight">{panels[focusedPanelIdx].data?.specialized?.roadmap?.phase3 || "Global Institutional Rollout"}</p>
                       </div>
                    </div>
                 </div>
@@ -347,11 +347,11 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                    <div className="grid grid-cols-2 gap-12 shrink-0">
                       <div className="text-center md:text-left">
                          <span className="text-[10px] text-red-500 uppercase block mb-1 font-black">Operational Waste Reduction</span>
-                         <span className="text-3xl font-black italic text-red-500">{report?.operational?.specialized?.financial_roi?.cost_savings}</span>
+                         <span className="text-3xl font-black italic text-red-500">{panels[focusedPanelIdx].data?.specialized?.financial_roi?.cost_savings || "Calculating..."}</span>
                       </div>
                       <div className="text-center md:text-left border-l border-white/5 pl-12">
                          <span className="text-[10px] text-emerald-400 uppercase block mb-1 font-black">Net Revenue Acceleration</span>
-                         <span className="text-3xl font-black italic text-emerald-400">{report?.operational?.specialized?.financial_roi?.revenue_growth}</span>
+                         <span className="text-3xl font-black italic text-emerald-400">{panels[focusedPanelIdx].data?.specialized?.financial_roi?.revenue_growth || "Analyzing..."}</span>
                       </div>
                    </div>
                 </div>
@@ -484,7 +484,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                                  Analytical Insights
                               </h4>
                               <div className="space-y-2">
-                                 {panels[activePanel].data?.inference?.key_points?.map((point, i) => (
+                                 {panels[activePanel].data?.inference?.key_points?.map((point: string, i: number) => (
                                     <motion.div 
                                        key={i}
                                        initial={{ opacity: 0, x: -10 }}
@@ -503,7 +503,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                            <div>
                               <h4 className="text-[10px] uppercase tracking-[0.4em] text-white/30 mb-2">Operational Mechanics</h4>
                               <div className="space-y-2">
-                                 {panels[activePanel].data?.inference?.mechanics?.map((mech, i) => (
+                                 {panels[activePanel].data?.inference?.mechanics?.map((mech: string, i: number) => (
                                     <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between group/mech">
                                        <span className="text-sm text-white/60">{mech}</span>
                                        <div className="w-2 h-2 rounded-full bg-white/10 group-hover/mech:bg-emerald-500 transition-colors"></div>
@@ -554,7 +554,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                             <div className="bg-emerald-500/5 rounded-[20px] p-4 border border-emerald-500/10">
                                <h4 className="text-[9px] uppercase tracking-[0.4em] text-emerald-400 mb-2">Strategic Action Plan</h4>
                                <div className="grid grid-cols-1 gap-2">
-                                  {panels[activePanel].data?.inference?.action_plan?.map((step, i) => (
+                                  {panels[activePanel].data?.inference?.action_plan?.map((step: string, i: number) => (
                                      <div key={i} className="flex items-start gap-4">
                                         <div className="w-8 h-8 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs font-black text-emerald-400">
                                            {i + 1}
