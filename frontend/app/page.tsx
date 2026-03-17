@@ -218,8 +218,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      </section>
-
       <AssistanceSection />
 
       {/* Select an Industry Section */}
