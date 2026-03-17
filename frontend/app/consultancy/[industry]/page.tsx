@@ -75,7 +75,7 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
   return (
     <main className="min-h-screen bg-[#020617] text-white p-6 lg:p-12 overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16 border-b border-white/5 pb-12 relative">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 border-b border-white/5 pb-8 relative">
             <div className="absolute top-0 right-0 opacity-10 blur-3xl w-64 h-64 bg-emerald-500 rounded-full -mr-32 -mt-32"></div>
           <div>
             <div className="flex items-center gap-3 text-emerald-400 text-xs font-black uppercase tracking-[0.4em] mb-4">
@@ -86,29 +86,29 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-white italic uppercase">{params.industry.replace('-',' ')} CORE.</span>
             </h1>
           </div>
-          <div className="bg-white/5 backdrop-blur-3xl rounded-3xl p-6 border border-white/10 max-w-sm">
+          <div className="bg-white/5 backdrop-blur-3xl rounded-2xl p-4 border border-white/10 max-w-sm">
              <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest block mb-1">Primary Selection</span>
-             <p className="text-lg font-bold text-white leading-tight">{capability}</p>
+             <p className="text-base font-bold text-white leading-tight">{capability}</p>
           </div>
         </header>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[800px]">
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-4 h-auto md:h-[650px]">
           {/* Panel 1: Financial (Large) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[0].color} rounded-[40px] p-8 border ${panels[0].border} relative overflow-hidden group`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[0].color} rounded-[32px] p-6 border ${panels[0].border} relative overflow-hidden group`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-8">
-                   <div className="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center border border-blue-500/40">
-                      {React.cloneElement(panels[0].icon as React.ReactElement, { className: "text-blue-400 w-6 h-6" })}
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-500/40">
+                      {React.cloneElement(panels[0].icon as React.ReactElement, { className: "text-blue-400 w-5 h-5" })}
                    </div>
-                   <h3 className="text-2xl font-black italic tracking-tighter">FINANCIAL ADVISORY</h3>
+                   <h3 className="text-lg font-black italic tracking-tighter">FINANCIAL ADVISORY</h3>
                 </div>
-                <p className="text-xl lg:text-2xl font-bold leading-snug mb-8">{panels[0].data}</p>
-                <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
+                <p className="text-base lg:text-lg font-bold leading-snug mb-6">{panels[0].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // CMS-PROVIDER</span>
                    <span>CONFIDENCE // 98%</span>
                 </div>
@@ -120,17 +120,17 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[1].color} rounded-[40px] p-8 border ${panels[1].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[1].color} rounded-[32px] p-6 border ${panels[1].border} relative overflow-hidden`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-8">
-                   <div className="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center border border-amber-500/40">
-                      {React.cloneElement(panels[1].icon as React.ReactElement, { className: "text-amber-400 w-6 h-6" })}
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/40">
+                      {React.cloneElement(panels[1].icon as React.ReactElement, { className: "text-amber-400 w-5 h-5" })}
                    </div>
-                   <h3 className="text-2xl font-black italic tracking-tighter">REGULATORY COMPLIANCE</h3>
+                   <h3 className="text-lg font-black italic tracking-tighter">REGULATORY COMPLIANCE</h3>
                 </div>
-                <p className="text-xl lg:text-2xl font-bold leading-snug mb-8">{panels[1].data}</p>
-                <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
+                <p className="text-base lg:text-lg font-bold leading-snug mb-6">{panels[1].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // OPEN_FDA</span>
                    <span>RISK // MINIMAL</span>
                 </div>
@@ -142,20 +142,20 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[40px] p-12 border ${panels[2].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[32px] p-8 border ${panels[2].border} relative overflow-hidden`}
           >
-              <div className="absolute right-0 bottom-0 p-8 opacity-10">
-                 <BrainCircuit className="w-48 h-48 text-emerald-400" />
+              <div className="absolute right-0 bottom-0 p-6 opacity-10">
+                 <BrainCircuit className="w-32 h-32 text-emerald-400" />
               </div>
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-8">
-                   <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center border border-emerald-500/40">
-                      {React.cloneElement(panels[2].icon as React.ReactElement, { className: "text-emerald-400 w-6 h-6" })}
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
+                      {React.cloneElement(panels[2].icon as React.ReactElement, { className: "text-emerald-400 w-5 h-5" })}
                    </div>
-                   <h3 className="text-3xl font-black italic tracking-tighter">DIGITAL TRANSFORMATION</h3>
+                   <h3 className="text-xl font-black italic tracking-tighter">DIGITAL TRANSFORMATION</h3>
                 </div>
-                <p className="text-2xl lg:text-3xl font-bold leading-tight max-w-2xl mb-8">{panels[2].data}</p>
-                <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
+                <p className="text-lg lg:text-xl font-bold leading-tight max-w-2xl mb-6">{panels[2].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
                    <span>INFRASTRUCTURE // HL7-FHIR</span>
                    <span>LATENCY // 420MS</span>
                 </div>
@@ -167,17 +167,17 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[40px] p-8 border ${panels[3].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[32px] p-6 border ${panels[3].border} relative overflow-hidden`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-8">
-                   <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-500/40">
-                      {React.cloneElement(panels[3].icon as React.ReactElement, { className: "text-purple-400 w-6 h-6" })}
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center border border-purple-500/40">
+                      {React.cloneElement(panels[3].icon as React.ReactElement, { className: "text-purple-400 w-5 h-5" })}
                    </div>
-                   <h3 className="text-2xl font-black italic tracking-tighter uppercase">Strategic Growth</h3>
+                   <h3 className="text-lg font-black italic tracking-tighter uppercase">Strategic Growth</h3>
                 </div>
-                <p className="text-xl font-bold leading-relaxed mb-8">{panels[3].data}</p>
-                <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
+                <p className="text-base font-bold leading-relaxed mb-6">{panels[3].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // FMP</span>
                    <span>M&A // HIGH</span>
                 </div>
@@ -190,15 +190,15 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={`mt-6 bg-gradient-to-r ${panels[4].color} rounded-[40px] p-10 border ${panels[4].border} relative overflow-hidden`}
+          className={`mt-4 bg-gradient-to-r ${panels[4].color} rounded-[32px] p-6 border ${panels[4].border} relative overflow-hidden`}
         >
-           <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
-              <div className="w-16 h-16 bg-cyan-500 rounded-3xl flex items-center justify-center shrink-0">
-                 {React.cloneElement(panels[4].icon as React.ReactElement, { className: "text-white w-8 h-8" })}
+           <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
+              <div className="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center shrink-0">
+                 {React.cloneElement(panels[4].icon as React.ReactElement, { className: "text-white w-6 h-6" })}
               </div>
               <div className="flex-1">
-                 <h3 className="text-xs font-black uppercase tracking-[0.4em] text-cyan-400 mb-2">Operational Efficiency Engine</h3>
-                 <p className="text-xl font-bold italic leading-tight">{panels[4].data}</p>
+                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 mb-1">Operational Efficiency Engine</h3>
+                 <p className="text-lg font-bold italic leading-tight">{panels[4].data}</p>
               </div>
            </div>
         </motion.div>
