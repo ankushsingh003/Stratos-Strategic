@@ -93,22 +93,22 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
         </header>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-4 h-auto md:h-[650px]">
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[750px]">
           {/* Panel 1: Financial (Large) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[0].color} rounded-[32px] p-6 border ${panels[0].border} relative overflow-hidden group`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[0].color} rounded-[32px] p-8 border ${panels[0].border} relative overflow-hidden group`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                   <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-500/40">
-                      {React.cloneElement(panels[0].icon as React.ReactElement, { className: "text-blue-400 w-5 h-5" })}
+                <div className="flex items-center gap-4 mb-6">
+                   <div className="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center border border-blue-500/40">
+                      {React.cloneElement(panels[0].icon as React.ReactElement, { className: "text-blue-400 w-6 h-6" })}
                    </div>
-                   <h3 className="text-lg font-black italic tracking-tighter">FINANCIAL ADVISORY</h3>
+                   <h3 className="text-xl font-black italic tracking-tighter">FINANCIAL ADVISORY</h3>
                 </div>
-                <p className="text-base lg:text-lg font-bold leading-snug mb-6">{panels[0].data}</p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
+                <p className="text-lg lg:text-xl font-bold leading-snug mb-8">{panels[0].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // CMS-PROVIDER</span>
                    <span>CONFIDENCE // 98%</span>
                 </div>
@@ -120,17 +120,17 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[1].color} rounded-[32px] p-6 border ${panels[1].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[1].color} rounded-[32px] p-8 border ${panels[1].border} relative overflow-hidden`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                   <div className="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/40">
-                      {React.cloneElement(panels[1].icon as React.ReactElement, { className: "text-amber-400 w-5 h-5" })}
+                <div className="flex items-center gap-4 mb-6">
+                   <div className="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center border border-amber-500/40">
+                      {React.cloneElement(panels[1].icon as React.ReactElement, { className: "text-amber-400 w-6 h-6" })}
                    </div>
-                   <h3 className="text-lg font-black italic tracking-tighter">REGULATORY COMPLIANCE</h3>
+                   <h3 className="text-xl font-black italic tracking-tighter">REGULATORY COMPLIANCE</h3>
                 </div>
-                <p className="text-base lg:text-lg font-bold leading-snug mb-6">{panels[1].data}</p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
+                <p className="text-lg lg:text-xl font-bold leading-snug mb-8">{panels[1].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // OPEN_FDA</span>
                    <span>RISK // MINIMAL</span>
                 </div>
@@ -142,20 +142,20 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[32px] p-8 border ${panels[2].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[32px] p-10 border ${panels[2].border} relative overflow-hidden`}
           >
-              <div className="absolute right-0 bottom-0 p-6 opacity-10">
-                 <BrainCircuit className="w-32 h-32 text-emerald-400" />
+              <div className="absolute right-0 bottom-0 p-8 opacity-10">
+                 <BrainCircuit className="w-48 h-48 text-emerald-400" />
               </div>
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                   <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-500/40">
-                      {React.cloneElement(panels[2].icon as React.ReactElement, { className: "text-emerald-400 w-5 h-5" })}
+                <div className="flex items-center gap-4 mb-8">
+                   <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center border border-emerald-500/40">
+                      {React.cloneElement(panels[2].icon as React.ReactElement, { className: "text-emerald-400 w-6 h-6" })}
                    </div>
-                   <h3 className="text-xl font-black italic tracking-tighter">DIGITAL TRANSFORMATION</h3>
+                   <h3 className="text-2xl font-black italic tracking-tighter">DIGITAL TRANSFORMATION</h3>
                 </div>
-                <p className="text-lg lg:text-xl font-bold leading-tight max-w-2xl mb-6">{panels[2].data}</p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
+                <p className="text-xl lg:text-2xl font-bold leading-tight max-w-2xl mb-8">{panels[2].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
                    <span>INFRASTRUCTURE // HL7-FHIR</span>
                    <span>LATENCY // 420MS</span>
                 </div>
@@ -167,17 +167,17 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[32px] p-6 border ${panels[3].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[32px] p-8 border ${panels[3].border} relative overflow-hidden`}
           >
              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-6">
-                   <div className="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center border border-purple-500/40">
-                      {React.cloneElement(panels[3].icon as React.ReactElement, { className: "text-purple-400 w-5 h-5" })}
+                <div className="flex items-center gap-4 mb-6">
+                   <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-500/40">
+                      {React.cloneElement(panels[3].icon as React.ReactElement, { className: "text-purple-400 w-6 h-6" })}
                    </div>
-                   <h3 className="text-lg font-black italic tracking-tighter uppercase">Strategic Growth</h3>
+                   <h3 className="text-xl font-black italic tracking-tighter uppercase">Strategic Growth</h3>
                 </div>
-                <p className="text-base font-bold leading-relaxed mb-6">{panels[3].data}</p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[9px] font-mono uppercase tracking-widest">
+                <p className="text-lg font-bold leading-relaxed mb-8">{panels[3].data}</p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex justify-between items-center opacity-60 text-[10px] font-mono uppercase tracking-widest">
                    <span>DATA_SRC // FMP</span>
                    <span>M&A // HIGH</span>
                 </div>
