@@ -125,12 +125,13 @@ export default function AssistanceSection() {
               transition={{ duration: 1.2 }}
               src="/assistance_ai.png"
               alt="Assistance Visual"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover grayscale-[0.2] brightness-90"
+              style={{ objectPosition: '0 20%' }}
             />
-            {/* Smooth transition overlays - softened for better visibility */}
+            {/* Smooth transition overlays - strengthened top mask to hide UI artifacts */}
             <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-transparent pointer-events-none" />
             <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(10,15,30,0.4)] pointer-events-none" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0a0f1e] to-transparent opacity-40 pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0a0f1e] to-transparent opacity-90 pointer-events-none" />
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0a0f1e] to-transparent opacity-40 pointer-events-none" />
           </div>
         </div>
