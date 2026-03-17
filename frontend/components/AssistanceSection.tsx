@@ -22,7 +22,7 @@ export default function AssistanceSection() {
   const [selectedIndustry, setSelectedIndustry] = useState("Industries");
 
   return (
-    <section className="relative -mt-16 pt-0 pb-24 bg-[#0a0f1e] overflow-hidden">
+    <section className="relative -mt-6 pt-0 pb-24 bg-[#0a0f1e] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-stretch gap-0 rounded-[48px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)] border border-white/5">
           {/* Left Column: Interactive Selection Card */}
