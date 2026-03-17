@@ -137,12 +137,12 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
              </div>
           </motion.div>
 
-          {/* Panel 3: Digital Transformation (Wide) */}
+          {/* Panel 3: Digital Transformation (Now symmetric with 3 spans) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className={`md:col-span-4 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[40px] p-12 border ${panels[2].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[2].color} rounded-[40px] p-12 border ${panels[2].border} relative overflow-hidden`}
           >
               <div className="absolute right-0 bottom-0 p-8 opacity-10">
                  <BrainCircuit className="w-48 h-48 text-emerald-400" />
@@ -162,12 +162,12 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
              </div>
           </motion.div>
 
-          {/* Panel 4: Strategic Growth (Tall-ish square) */}
+          {/* Panel 4: Strategic Growth (Now symmetric with 3 spans) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className={`md:col-span-2 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[40px] p-8 border ${panels[3].border} relative overflow-hidden`}
+            className={`md:col-span-3 md:row-span-1 bg-gradient-to-br ${panels[3].color} rounded-[40px] p-8 border ${panels[3].border} relative overflow-hidden`}
           >
              <div className="relative z-10 h-full flex flex-col">
                 <div className="flex items-center gap-4 mb-8">
