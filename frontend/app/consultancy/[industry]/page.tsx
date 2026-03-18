@@ -129,9 +129,25 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
     { title: "Operational Efficiency", icon: <Settings />, data: report?.operational, color: "from-cyan-600/20 to-transparent", stroke: "#06b6d4", border: "border-cyan-500/30", src: "ENGINE-CORE", focus: "Operational Efficiency & Optimization" }
   ];
 
-  const normalizedCapability = capability?.trim().toLowerCase();
-  const focusedPanelIdx = panels.findIndex(p => p.focus.toLowerCase() === normalizedCapability);
-  const activeSpecialized = focusedPanelIdx !== -1 ? panels[focusedPanelIdx].data?.specialized : null;
+  const normalizedCapability = capability?.trim().toLowerCase() || "";
+  
+  // Fuzzy matching: check if capability matches title or focus
+  const filteredPanels = normalizedCapability 
+    ? panels.filter(p => {
+        const pTitle = p.title.toLowerCase();
+        const pFocus = p.focus.toLowerCase();
+        return pTitle.includes(normalizedCapability) || 
+               pFocus.includes(normalizedCapability) ||
+               normalizedCapability.includes(pTitle.split(' ')[0].toLowerCase().slice(0, 5)) ||
+               pTitle.includes(normalizedCapability.slice(0, 5));
+      })
+    : panels;
+
+  const focusedPanelIdx = panels.findIndex(p => 
+    p.focus.toLowerCase().includes(normalizedCapability) || 
+    p.title.toLowerCase().includes(normalizedCapability)
+  );
+  const activeSpecialized = (focusedPanelIdx !== -1 && normalizedCapability) ? panels[focusedPanelIdx].data?.specialized : null;
 
   return (
     <main className="min-h-screen bg-[#020617] text-white p-4 lg:p-6 overflow-x-hidden relative font-sans">
@@ -374,9 +390,9 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
           </motion.div>
         ) : (
           <>
-            {/* Bento Grid Layout */}
+            {/* Bento Grid Layout - Filtered */}
             <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 grid-rows-2 gap-4 h-auto md:min-h-[700px] mb-12">
-              {panels.slice(0, 4).map((panel, idx) => (
+              {filteredPanels.filter(p => p.title !== "Operational Efficiency").map((panel, idx) => (
                 <motion.div 
                   key={idx}
                   initial={{ opacity: 0, y: 30 }}
@@ -419,13 +435,14 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
               ))}
             </div>
 
-            {/* Panel 5: Operational Efficiency */}
+            {/* Panel 5: Operational Efficiency - Only show if no filter or if it matches */}
+            {(filteredPanels.some(p => p.title === "Operational Efficiency")) && (
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              onClick={() => setActivePanel(4)}
-              className={`bg-gradient-to-r ${panels[4].color} rounded-[40px] p-10 border ${panels[4].focus.toLowerCase() === normalizedCapability ? 'border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.15)] scale-[1.01]' : 'border-white/10'} relative overflow-hidden cursor-pointer group hover:border-cyan-400/50 transition-all duration-500 mb-20 shadow-xl`}
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               onClick={() => setActivePanel(4)}
+               className={`bg-gradient-to-r ${panels[4].color} rounded-[40px] p-10 border ${panels[4].focus.toLowerCase().includes(normalizedCapability) ? 'border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.15)] scale-[1.01]' : 'border-white/10'} relative overflow-hidden cursor-pointer group hover:border-cyan-400/50 transition-all duration-500 mb-20 shadow-xl`}
             >
                <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
                   <div className="w-20 h-20 bg-cyan-500 rounded-3xl flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(6,182,212,0.3)] group-hover:rotate-6 transition-transform">
@@ -449,7 +466,8 @@ export default function ConsultancyIntelligencePage({ params }: { params: { indu
                   <Settings className="w-32 h-32 animate-spin-slow" />
                </div>
             </motion.div>
-          </>
+            )}
+           </>
         )}
 
         {/* Detail Overlay */}

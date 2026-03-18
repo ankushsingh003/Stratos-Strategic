@@ -39,6 +39,7 @@ async def get_full_intelligence_report(industry: str = "Medical"):
     """
     Returns data for all 5 consultancy panels, grounded in the specified industry.
     """
+    print(f"INFO: Generating full report for {industry}...")
     return await intelligence_service.get_full_report(industry=industry)
 
 @app.get("/")
