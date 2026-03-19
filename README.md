@@ -1,72 +1,79 @@
-# ⚡ Vantage AI — Strategic Intelligence Engine
+# ⚡ Vantage AI — V2 Strategic Intelligence Engine
 
-An enterprise-grade, AI-powered platform for generating real-time strategic consultancy reports, analyzing competitive landscapes, and surfacing predictive financial models across multiple industries.
+An enterprise-grade, agentic platform for generating real-time strategic consultancy reports, analyzing competitive landscapes, and surfacing predictive financial models using RAG-grounded intelligence and Ensemble ML.
 
 ## 🚀 Overview
-Vantage AI transforms raw API signals from institutional sources (OpenFDA, FMP, CMS, HL7-FHIR) into board-ready strategic intelligence. Using a **Staggered Multi-Pillar Synthesis** architecture, the platform generates 7-dimensional strategic audits that bridge the gap between technical data and executive decision-making.
+Vantage AI V2 transforms raw API signals from institutional sources (OpenFDA, FMP, CMS, HL7-FHIR, NHTSA, Square) into board-ready strategic intelligence. Using a **Staggered Multi-Pillar Synthesis** architecture combined with **Agentic RAG** and **Ensemble ML Forecasting**, the platform generates high-fidelity strategic audits that bridge the gap between technical data and executive decision-making.
 
 ## 📊 System Working & Flowchart
 
-The system operates on an asynchronous "Fetch-and-Synthesize" pipeline. Data is retrieved in parallel, then passed through a staggered LLM synthesis stage to ensure high-density metrics without rate-limiting friction.
+The system operates on an asynchronous "Fetch-and-Synthesize" pipeline, augmented by a vector knowledge base for industrial grounding and an ensemble of deep learning models for trend prediction.
 
 ```mermaid
 graph TD
-    subgraph "Data Acquisition Layer"
-        A[OpenFDA - Safety Signals] --> P[Pillar Fetcher]
-        B[FMP - Financial Data] --> P
-        C[CMS - Provider Metrics] --> P
-        D[HL7-FHIR - Tech Readiness] --> P
+    subgraph "Ingestion & Grounding Layer"
+        A1[OpenFDA - Safety Signals] --> B[Multi-Source Connector]
+        A2[FMP - Financial Data] --> B
+        A3[CMS - Provider Metrics] --> B
+        A4[NHTSA - Vehicle Specs] --> B
+        A5[Square - POS Telemetry] --> C[ChromaDB Vector Store]
+        B --> C
     end
 
-    subgraph "Synthesis Intelligence Layer"
-        P --> E[Raw Signal Normalization]
-        E --> F{Staggered Groq Engine}
-        F --> G[Batch 1: Financial & Regulatory]
-        F --> H[Batch 2: Digital & Growth]
-        G & H --> I[Master Strategic Synthesis]
+    subgraph "V2 Intelligence Core"
+        C --> D{Orchestration Engine}
+        D --> E[Multi-LLM Synthesis: Groq + Gemini]
+        D --> F[ML Ensemble: XGBoost + LSTM + Prophet]
+        F --> G[XAI: SHAP & LIME Explanations]
     end
 
-    subgraph "Institutional UI Layer"
-        I --> J[Next.js 14 Dashboard]
-        J --> K[7-Pillar Strategic Report]
-        J --> L[Agentic Alpha Stream]
+    subgraph "Actionable Output Layer"
+        E & G --> H[Next.js 14 Dashboard]
+        H --> I[Dynamic PDF Strategic Audits]
+        H --> J[Agentic Chat Consultant]
+        H --> K[Real-time Signal Stream - WS]
     end
 
-    style F fill:#10b981,stroke:#333,stroke-width:4px
-    style J fill:#3b82f6,stroke:#333,stroke-width:2px
+    style D fill:#10b981,stroke:#333,stroke-width:4px
+    style H fill:#3b82f6,stroke:#333,stroke-width:2px
+    style F fill:#f59e0b,stroke:#333,stroke-width:2px
 ```
 
-## 🧠 The 7-Pillar Strategic Framework
-Every intelligence audit is structured around seven institutional dimensions:
-1.  **Financial Advisory**: EBITDA optimization, capital reallocation, and margin acceleration.
-2.  **Regulatory Compliance**: Safety signal variance, HIPAA/FDA audit trails, and risk governance.
-3.  **Digital Transformation**: HL7-FHIR interoperability, EHR integration latency, and agentic automation.
-4.  **Strategic Growth**: M&A velocity, market-entry CAGR, and competitive consolidation.
-5.  **Operational Efficiency**: Labor-to-output ratios, ALOS optimization, and triage latency.
-6.  **Gap Analysis**: Delta identification between current talent/infra and institutional targets.
-7.  **Evolutionary Roadmap**: Tactical (P1), Strategic (P2), and Global (P3) optimization milestones.
+## 🧠 Core Capabilities
+
+### 1. Agentic RAG (Retrieval-Augmented Generation)
+- **Vectorized Ingestion**: Multi-source data (Square POS, CMS) is vectorized into **ChromaDB**.
+- **Contextual Grounding**: LLMs are grounded in real-time operational telemetry to avoid hallucinations.
+
+### 2. Ensemble ML Forecasting
+- **Multi-Model Prediction**: Combines XGBoost (Tabular), LSTM (Time-series), and Prophet (Forecasting) for high-accuracy growth trajectories.
+- **Explainable AI (XAI)**: Integrated **SHAP** and **LIME** explainers provide transparency into model decision-making.
+
+### 3. Staggered LLM Synthesis
+- **Multi-Engine Orchestration**: Dynamically switches between **Groq (Llama-3.3-70B)** for sub-second speed and **Gemini 1.5 Pro/Flash** for complex reasoning.
+- **Parallel Batching**: 7-dimensional strategic audits are generated in parallel using `asyncio` Task Groups.
 
 ## 🛠️ Tech Stack
 
 ### High-Performance Frontend
 - **Framework**: Next.js 14 (App Router)
 - **Styling**: Tailwind CSS with custom Glassmorphism tokens.
-- **Animations**: Framer Motion for micro-interactions and data-stream visualizations.
-- **Icons**: Lucide React.
+- **Real-time**: WebSocket integration for live signal feeds.
+- **State Management**: React Query & Lucide Icons.
 
 ### Scalable Backend
 - **Framework**: FastAPI (Asynchronous Orchestration)
-- **Engine**: Groq (Llama-3.3-70B-Versatile) for sub-second intelligence synthesis.
-- **Data Protocols**: HL7-FHIR, RESTful Institutional APIs.
-- **Orchestration**: Staggered `asyncio` Task Groups.
+- **Engines**: Groq (Primary), Gemini (Fallback).
+- **Vector DB**: ChromaDB for RAG grounding.
+- **ML Frameworks**: Scikit-learn, XGBoost, PyTorch (LSTM), Prophet.
+- **Observability**: Sentry for error tracking and performance monitoring.
 
 ## 🏁 Getting Started
 
 ### Prerequisites
 - Node.js (v18+)
 - Python (3.10+)
-- Groq API Key
-- OpenFDA & FMP API Keys
+- API Keys: Groq, Gemini, OpenFDA, FMP.
 
 ### Installation
 1. **Clone & Install Backend**:
